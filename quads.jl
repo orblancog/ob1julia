@@ -47,7 +47,7 @@ function mult(A,B)
     q::Array{Basic,2}=transpose(reshape(p,4,4))
     return q
 end
-function mtransport(mlist)
+function dotransport(mlist)
     for i in 1:length(mlist)-1
         if i == 1
             global m1 = mlist[1]
@@ -95,23 +95,15 @@ push!(mlist,mdstar) # first elemen last
 println("    ",length(mlist)," matrices created.")
 println("    Transport line created. Adios !")
 
-
-# maux = Any[]
-# for i in 1:length(mlist)
-#     print(i," ")
-#     if i == 1
-#         push!(maux,mlist[1])
-# #        println(axes(maux[1])," ",maux[1])
-#     else
-#         m = mult(maux[i-1],mlist[i]) ### mult modifies mt
-# #        println(axes(m))
-#         push!(maux,m)
-# #        println(axes(maux[i])," ",maux[i])
-#     end
-# end
-m = mtransport(mlist)
+m = dotransport(mlist)
 println(typeof(m[1][1]))
 println(expand(m[1][1]))
+dm_dE=diff(expand(m[1][1]),dE)
+d2m_dE2=diff(dm_dE,dE)
+println("m0          : ",m[1][1])
+println("dm_dE * dE  :",dm_dE*dE)
+println("d2m_dE2 * dE:",d2m_dE2*dE^2)
+
 
 
 exit()
