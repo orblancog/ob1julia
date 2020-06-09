@@ -39,13 +39,13 @@ function mult(A,B)
     p = Any[]
     for i in 1:4, j in 1:4
         pp = 0
+        typeof(pp)
         for k in 1:4
-            @inbounds pp = pp+A[i][k]*B[k][j]
+            pp = pp + A[i,k]*B[k,j]
         end
         push!(p,pp)
     end
-    q::Array{Basic,2}=transpose(reshape(p,4,4))
-    return q
+    return reshape(p,4,4)
 end
 function dotransport(mlist)
     for i in 1:length(mlist)-1
@@ -109,10 +109,18 @@ println("    ",length(mlist)," matrices created.")
 println("    Transport line created. Adios !")
 
 println("    Creating the transport matrix to second order in dE")
+println(mlist[1])
+println(mlist[2])
+c1 = mult(mlist[1],mlist[2])
+print(c1)
+exit()
 m = dotransport(mlist)
-R11 = dotaylor(expand(m[1][1]))
-println("      R11 = ",expand(R11))
-#R12 = dotaylor(expand(m[1][2]))
+#R11 = dotaylor(expand(m[1][1]))
+#println("      R11 = ",expand(R11))
+#print(typeof(m[1,2]))
+println(m)
+exit()
+R12 = dotaylor(expand(m[1,2]))
 #println("      R12 = ",expand(R12))
 exit()
 
