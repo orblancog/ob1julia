@@ -100,7 +100,17 @@ println(typeof(m[1][1]))
 println(expand(m[1][1]))
 dm_dE=diff(expand(m[1][1]),dE)
 d2m_dE2=diff(dm_dE,dE)
-println("m0          : ",m[1][1])
+f0 = subs(expand(m[1][1]),dE,0)
+print(f0)
+#mytaylor(expand[1][1])
+exit()
+
+
+exit()
+println("sub0        : ",subs(m[1][1],dE => 0))
+
+
+        
 println("dm_dE * dE  :",dm_dE*dE)
 println("d2m_dE2 * dE:",d2m_dE2*dE^2)
 
@@ -129,6 +139,7 @@ println(expand(Rm[1][1]))
 exit()
 println(diff(Rm[1][1],dE))
 #println(diff(Rm[1][2],dE))
-println(diff(Rm[2][1],dE))
-println(diff(Rm[2][2],dE))
-println(length(Rm))
+
+#println(diff(Rm[2][1],dE))
+#println(diff(Rm[2][2],dE))
+#println(length(Rm))
