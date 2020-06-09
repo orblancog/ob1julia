@@ -112,7 +112,7 @@ println("    Creating the transport matrix to second order in dE")
 m = dotransport(mlist)
 R11 = dotaylor(expand(m[1][1]))
 println("      R11 = ",expand(R11))
-#R12 = dotaylor(expand(m[1][2]))
+R12 = dotaylor(expand(m[1][2]))
 #println("      R12 = ",expand(R12))
 exit()
 
