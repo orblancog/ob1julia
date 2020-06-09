@@ -57,7 +57,20 @@ function dotransport(mlist)
     end
     return m1
 end
+### second order taylor expansion
+function dotaylor(p)
+    print("create")
+    f   = expand(p)
+    df  = diff(f,  dE)
+    ddf = diff(df, dE)
+    ff = [symbols("f$i") for i in 0:1:2]
+    f0 = subs(f  , dE, 0)
+    f1 = subs(df , dE, 0)
+    f2 = subs(ddf, dE, 0)
 
+    ftaylor = expand(f0 + f1*dE + 0.5*f2*dE^2)
+    return ftaylor
+end
 ### BEGIN of the script
 
 println("  OB1's APOCHROMAT DESIGN 0.1")
@@ -95,14 +108,19 @@ push!(mlist,mdstar) # first elemen last
 println("    ",length(mlist)," matrices created.")
 println("    Transport line created. Adios !")
 
+println("    Creating the transport matrix to second order in dE")
 m = dotransport(mlist)
-println(typeof(m[1][1]))
-println(expand(m[1][1]))
-dm_dE=diff(expand(m[1][1]),dE)
-d2m_dE2=diff(dm_dE,dE)
-f0 = subs(expand(m[1][1]),dE,0)
-print(f0)
-#mytaylor(expand[1][1])
+R11 = dotaylor(expand(m[1][1]))
+println("      R11 = ",expand(R11))
+#R12 = dotaylor(expand(m[1][2]))
+#println("      R12 = ",expand(R12))
+exit()
+
+    RRij=
+    println("      R$i$j = ",RRij)
+end
+#println("    type=",typeof(R11))
+      
 exit()
 
 
