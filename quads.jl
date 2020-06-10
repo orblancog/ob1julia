@@ -41,18 +41,23 @@ function mult(A,B)
         pp = 0
         typeof(pp)
         for k in 1:4
-            pp = pp + A[i,k]*B[k,j]
+            pp = pp + A[i,k]*B[k,j]### order changed because push is adding column vectors
+#            println("i",i," j",j," k",k," pp",pp," A",A[i,k]," B",B[k,j])
         end
-        push!(p,pp)
+        push!(p,pp) ### maybe push is adding column vectors
+#        println(" stato p",p)
     end
-    return reshape(p,4,4)
+    return transpose(reshape(p,4,4))
 end
 function dotransport(mlist)
     for i in 1:length(mlist)-1
+#        println(" ",i)
         if i == 1
             global m1 = mlist[1]
-        else
-            global m1 = mult(m1,mlist[i]) ### mult modifies mt
+        end
+        if length(mlist) > 1
+#            println("enter")
+            global m1 = mult(m1,mlist[i+1]) ### mult modifies mt
         end
     end
     return m1
@@ -109,11 +114,23 @@ println("    ",length(mlist)," matrices created.")
 println("    Transport line created. Adios !")
 
 println("    Creating the transport matrix to second order in dE")
-m = dotransport(mlist)
+#m = dotransport(mlist)
+
+mlist2 = Any[]
+push!(mlist2,mdstar)
+push!(mlist2,mq(quad(kk[1],ll[1])))
+#push!(mlist2,mdstar)
+#push!(mlist2,mdstar)
+println("mstar : ",mlist2)
+println("length",length(mlist2))
+m = dotransport(mlist2)
+#
 #R11 = dotaylor(expand(m[1][1]))
 #println("      R11 = ",expand(R11))
 #print(typeof(m[1,2]))
-println(m)
+println("m ",m)
+R11 = dotaylor(expand(m[1,1]))
+println("      R11 = ",expand(R11))
 R12 = dotaylor(expand(m[1,2]))
 println("      R12 = ",expand(R12))
 exit()
