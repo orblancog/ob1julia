@@ -85,7 +85,7 @@ end
 ### BEGIN of the script
 
 println("  OB1's APOCHROMAT DESIGN 0.2")
-Nq = 2 # number of quadrupoles
+Nq = 5 # number of quadrupoles
 Nl = Nq - 1 # number of drifts
 println("    Using ",Nq," quads and ",Nl," drifts")
 
@@ -124,13 +124,20 @@ println("    Creating the transport matrix to second order in dE")
 
 mlist2 = Any[]
 #push!(mlist2,mdstar)
-push!(mlist2,mdstar)
+#push!(mlist2,mdstar)
 #push!(mlist2,mq(quad(kk[1],ll[1])))
 #push!(mlist2,mq(quad(kk[2],ll[2])))
 #push!(mlist2,mdstar)
 #println("length",length(mlist2))
-R = dotransport(mlist2)
+
+
+
+R = dotransport(mlist)
+#=
 println("    matrix ",R)
+=#
+
+
 Rarraytaylor = Any[]
 for i in 1:4, j in 1:4
     Rij = dotaylor(expand(R[i,j]))
@@ -138,9 +145,11 @@ for i in 1:4, j in 1:4
 end
 Rtaylor=transpose(reshape(Rarraytaylor,4,4))
 println("    Taylor expansion to second order of the matrix R")
+#=
 for i in 1:4, j in 1:4
     println("      R$i$j = ",expand(Rtaylor[i,j]))
 end
+=#
 
 println("    Calculation of twiss parameters...")
 # twiss symbols as a function of dE
@@ -186,12 +195,14 @@ alfaxtrunc = dotruncate(alfax)
 alfaytrunc = dotruncate(alfay)
 gamaxtrunc = dotruncate(gamax)
 gamaytrunc = dotruncate(gamay)
+#=
 println("      betaxtrunc = ",betaxtrunc)
 println("      betaytrunc = ",betaytrunc)
 println("      alfaxtrunc = ",alfaxtrunc)
 println("      alfaytrunc = ",alfaytrunc)
 println("      gamaxtrunc = ",gamaxtrunc)
 println("      gamaytrunc = ",gamaytrunc)
+=#
 println("    Expansion finished")
 
 println("    Extracting chromatics derivatives")
@@ -207,6 +218,7 @@ eqalfaxdE2=0.5diff(diff(alfaxtrunc,dE),dE)*dE^2
 eqalfaydE0=alfaytrunc
 eqalfaydE1=diff(alfaytrunc,dE)*dE
 eqalfaydE2=0.5diff(diff(alfaytrunc,dE),dE)*dE^2
+#=
 println("      eqbetaxdE0 = ",eqbetaxdE0)
 println("      eqbetaxdE1 = ",eqbetaxdE1)
 println("      eqbetaxdE2 = ",eqbetaxdE2)
@@ -219,5 +231,6 @@ println("      eqalfaxdE2 = ",eqalfaxdE2)
 println("      eqalfaydE0 = ",eqalfaydE0)
 println("      eqalfaydE1 = ",eqalfaydE1)
 println("      eqalfaydE2 = ",eqalfaydE2)
+=#
 
 exit()
