@@ -128,14 +128,15 @@ m = dotransport(mlist2)
 #println("      R11 = ",expand(R11))
 #print(typeof(m[1,2]))
 println("m ",m)
-Rarray = Any[]
+Rarraytaylor = Any[]
 for i in 1:4, j in 1:4
-    Rij = dotaylor(expand(m[1,1]))
+    Rij = dotaylor(expand(m[i,j]))
     push!(Rarray,Rij)
 end
-R=transpose(reshape(Rarray,4,4))
+Rtaylor=transpose(reshape(Rarraytaylor,4,4))
+print("    Taylor expansion to second order of the matrix R")
 for i in 1:4, j in 1:4
-    println("      R$i$j = ",expand(R[i,j]))
+    println("      R$i$j = ",expand(Rtaylor[i,j]))
 end
 
 exit()
