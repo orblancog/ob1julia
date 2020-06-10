@@ -192,4 +192,20 @@ println("      alfaxtrunc = ",alfaxtrunc)
 println("      alfaytrunc = ",alfaytrunc)
 println("      gamaxtrunc = ",gamaxtrunc)
 println("      gamaytrunc = ",gamaytrunc)
+println("    Expansion finished")
+
+println("    Extracting chromatics derivatives")
+eqbetaxdE0=betaxtrunc
+eqbetaxdE1=diff(betaxtrunc,dE)*dE
+eqbetaxdE2=0.5diff(diff(betaxtrunc,dE),dE)*dE^2
+eqbetaydE0=betaytrunc
+eqbetaydE1=diff(betaytrunc,dE)*dE
+eqbetaydE2=0.5diff(diff(betaytrunc,dE),dE)*dE^2
+eqalfaxdE0=alfaxtrunc
+eqalfaxdE1=diff(alfaxtrunc,dE)*dE
+eqalfaxdE2=0.5diff(diff(alfaxtrunc,dE),dE)*dE^2
+eqalfaydE0=alfaytrunc
+eqalfaydE1=diff(alfaytrunc,dE)*dE
+eqalfaydE2=0.5diff(diff(alfaytrunc,dE),dE)*dE^2
+
 exit()
