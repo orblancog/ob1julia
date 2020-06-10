@@ -64,7 +64,7 @@ function dotransport(mlist)
 end
 ### second order taylor expansion
 function dotaylor(p)
-    print("create")
+#    print("create")
     f   = expand(p)
     df  = diff(f,  dE)
     ddf = diff(df, dE)
@@ -121,18 +121,23 @@ push!(mlist2,mdstar)
 push!(mlist2,mq(quad(kk[1],ll[1])))
 #push!(mlist2,mdstar)
 #push!(mlist2,mdstar)
-#println("mstar : ",mlist2)
 #println("length",length(mlist2))
 m = dotransport(mlist2)
 #
 #R11 = dotaylor(expand(m[1][1]))
 #println("      R11 = ",expand(R11))
 #print(typeof(m[1,2]))
-#println("m ",m)
-R11 = dotaylor(expand(m[1,1]))
-println("      R11 = ",expand(R11))
-R12 = dotaylor(expand(m[1,2]))
-println("      R12 = ",expand(R12))
+println("m ",m)
+Rarray = Any[]
+for i in 1:4, j in 1:4
+    Rij = dotaylor(expand(m[1,1]))
+    push!(Rarray,Rij)
+end
+R=transpose(reshape(Rarray,4,4))
+for i in 1:4, j in 1:4
+    println("      R$i$j = ",expand(R[i,j]))
+end
+
 exit()
 
     RRij=
