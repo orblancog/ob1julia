@@ -76,6 +76,15 @@ function dotaylor(p)
     ftaylor = expand(f0 + f1*dE + 0.5*f2*dE^2)
     return ftaylor
 end
+### truncate expansion
+function dotruncate(p)
+    pexpnd = expand(p)
+    ptrunc = 0
+    for i in 0:1:2
+        ptrunc = ptrunc + coeff(pexpnd,dE,Basic(i))*dE^i
+    end
+    return expand(ptrunc)
+end
 ### BEGIN of the script
 
 println("  OB1's APOCHROMAT DESIGN 0.2")
@@ -119,7 +128,7 @@ println("    Creating the transport matrix to second order in dE")
 mlist2 = Any[]
 push!(mlist2,mdstar)
 push!(mlist2,mq(quad(kk[1],ll[1])))
-push!(mlist2,mq(quad(kk[2],ll[2])))
+#push!(mlist2,mq(quad(kk[2],ll[2])))
 #push!(mlist2,mdstar)
 #println("length",length(mlist2))
 R = dotransport(mlist2)
@@ -171,5 +180,14 @@ alfay = -Cy*Cpy*betay0 + (Cy*Spy + Sy*Cpy)*alfay0 - Sy*Spy*gamay0
 gamax =  (Cpx^2)*betax0 - 2*Cpx*Spx*alfax0 + (Spx^2)*gamax0
 gamay =  (Cpy^2)*betay0 - 2*Cpy*Spy*alfay0 + (Spy^2)*gamay0
 
-println"betax=",betax)
+cf = expand(betax)
+println("betax=",expand(betax))
+println("coef0 =",coeff(cf,dE,Basic(0)))
+println("coef1 =",coeff(cf,dE,Basic(1)))
+println("coef2 =",coeff(cf,dE,Basic(2)))
+println("coef3 =",coeff(cf,dE,Basic(3)))
+println("coef4 =",coeff(cf,dE,Basic(4)))
+println("coef5 =",coeff(cf,dE,Basic(5)))
+
+println(dotruncate(cf))
 exit()
