@@ -119,7 +119,7 @@ println("    Creating the transport matrix to second order in dE")
 mlist2 = Any[]
 push!(mlist2,mdstar)
 push!(mlist2,mq(quad(kk[1],ll[1])))
-push!(mlist2,mdstar)
+push!(mlist2,mq(quad(kk[2],ll[2])))
 #push!(mlist2,mdstar)
 #println("length",length(mlist2))
 R = dotransport(mlist2)
@@ -135,4 +135,39 @@ for i in 1:4, j in 1:4
     println("      R$i$j = ",expand(Rtaylor[i,j]))
 end
 
+println("      Calculation of twiss parameters...")
+# twiss symbols as a function of dE
+betax = symbols("betax")
+betay = symbols("betay")
+alfax = symbols("alfax")
+alfay = symbols("alfay")
+gamax = symbols("gamax")
+gamay = symbols("gamay")
+# initial values
+betax0 = symbols("betax0")
+betay0 = symbols("betay0")
+alfax0 = symbols("alfax0")
+alfay0 = symbols("alfay0")
+gamax0 = symbols("gamax0")
+gamay0 = symbols("gamay0")
+# notation to propagate twiss
+Cx = symbols("Cx")
+Cy = symbols("Cy")
+Sx = symbols("Sx")
+Sy = symbols("Sy")
+Cx  = Rtaylor[1,1]
+Cy  = Rtaylor[3,3]
+Sx  = Rtaylor[1,2]
+Sy  = Rtaylor[3,4]
+Cpx = Rtaylor[2,1]
+Cpy = Rtaylor[4,3]
+Spx = Rtaylor[2,2]
+Spy = Rtaylor[4,4]
+
+betax =  (Cx^2)*betax0  - 2*Cx*Sx*alfax0 + (Sx^2)*gamax0
+betay =  (Cy^2)*betay0  - 2*Cy*Sy*alfay0 + (Sy^2)*gamay0
+alfax = -Cx*Cpx*betax0 + (Cx*Spx + Sx*Cpx)*alfax0 - Sx*Spx*gamax0
+alfay = -Cy*Cpy*betay0 + (Cy*Spy + Sy*Cpy)*alfay0 - Sy*Spy*gamay0
+gamax =  (Cpx^2)*betax0 - 2*Cpx*Spx*alfax0 + (Spx^2)*gamax0
+gamay =  (Cpy^2)*betay0 - 2*Cpy*Spy*alfay0 + (Spy^2)*gamay0
 exit()
