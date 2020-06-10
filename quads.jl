@@ -125,7 +125,7 @@ println("    Creating the transport matrix to second order in dE")
 mlist2 = Any[]
 #push!(mlist2,mdstar)
 push!(mlist2,mdstar)
-push!(mlist2,mq(quad(kk[1],ll[1])))
+#push!(mlist2,mq(quad(kk[1],ll[1])))
 #push!(mlist2,mq(quad(kk[2],ll[2])))
 #push!(mlist2,mdstar)
 #println("length",length(mlist2))
@@ -207,5 +207,17 @@ eqalfaxdE2=0.5diff(diff(alfaxtrunc,dE),dE)*dE^2
 eqalfaydE0=alfaytrunc
 eqalfaydE1=diff(alfaytrunc,dE)*dE
 eqalfaydE2=0.5diff(diff(alfaytrunc,dE),dE)*dE^2
+println("      eqbetaxdE0 = ",eqbetaxdE0)
+println("      eqbetaxdE1 = ",eqbetaxdE1)
+println("      eqbetaxdE2 = ",eqbetaxdE2)
+println("      eqbetaydE0 = ",eqbetaydE0)
+println("      eqbetaydE1 = ",eqbetaydE1)
+println("      eqbetaydE2 = ",eqbetaydE2)
+println("      eqalfaxdE0 = ",eqalfaxdE0)
+println("      eqalfaxdE1 = ",eqalfaxdE1)
+println("      eqalfaxdE2 = ",eqalfaxdE2)
+println("      eqalfaydE0 = ",eqalfaydE0)
+println("      eqalfaydE1 = ",eqalfaydE1)
+println("      eqalfaydE2 = ",eqalfaydE2)
 
 exit()
