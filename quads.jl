@@ -77,7 +77,7 @@ end
 function dotruncate(p)
     pexpnd = expand(p)
     ptrunc = 0
-    for i in 3:1:4
+    for i in 0:1:2 ## zeroth to second order expansion
         ptrunc = ptrunc + coeff(pexpnd,dE,Basic(i))*dE^i
     end
     return expand(ptrunc)
@@ -124,7 +124,7 @@ println("    Creating the transport matrix to second order in dE")
 
 mlist2 = Any[]
 #push!(mlist2,mdstar)
-#push!(mlist2,mdstar)
+push!(mlist2,mdstar)
 push!(mlist2,mq(quad(kk[1],ll[1])))
 #push!(mlist2,mq(quad(kk[2],ll[2])))
 #push!(mlist2,mdstar)
@@ -142,7 +142,7 @@ for i in 1:4, j in 1:4
     println("      R$i$j = ",expand(Rtaylor[i,j]))
 end
 
-println("      Calculation of twiss parameters...")
+println("    Calculation of twiss parameters...")
 # twiss symbols as a function of dE
 betax = symbols("betax")
 betay = symbols("betay")
@@ -177,15 +177,19 @@ alfax = -Cx*Cpx*betax0 + (Cx*Spx + Sx*Cpx)*alfax0 - Sx*Spx*gamax0
 alfay = -Cy*Cpy*betay0 + (Cy*Spy + Sy*Cpy)*alfay0 - Sy*Spy*gamay0
 gamax =  (Cpx^2)*betax0 - 2*Cpx*Spx*alfax0 + (Spx^2)*gamax0
 gamay =  (Cpy^2)*betay0 - 2*Cpy*Spy*alfay0 + (Spy^2)*gamay0
+println("    ... twiss parameters defined")
 
-cf = expand(betax)
-println("betax=",expand(betax))
-println("coef0 =",coeff(cf,dE,Basic(0)))
-println("coef1 =",coeff(cf,dE,Basic(1)))
-println("coef2 =",coeff(cf,dE,Basic(2)))
-println("coef3 =",coeff(cf,dE,Basic(3)))
-println("coef4 =",coeff(cf,dE,Basic(4)))
-println("coef5 =",coeff(cf,dE,Basic(5)))
-
-println(dotruncate(cf))
+println("    Expanding twiss parameters to second order in dE")
+betaxtrunc = dotruncate(betax)
+betaytrunc = dotruncate(betay)
+alfaxtrunc = dotruncate(alfax)
+alfaytrunc = dotruncate(alfay)
+gamaxtrunc = dotruncate(gamax)
+gamaytrunc = dotruncate(gamay)
+println("      betaxtrunc = ",betaxtrunc)
+println("      betaytrunc = ",betaytrunc)
+println("      alfaxtrunc = ",alfaxtrunc)
+println("      alfaytrunc = ",alfaytrunc)
+println("      gamaxtrunc = ",gamaxtrunc)
+println("      gamaytrunc = ",gamaytrunc)
 exit()
