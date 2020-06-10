@@ -50,13 +50,10 @@ function mult(A,B)
     return transpose(reshape(p,4,4))
 end
 function dotransport(mlist)
+    global m1 = mlist[1]
     for i in 1:length(mlist)-1
-#        println(" ",i)
-        if i == 1
-            global m1 = mlist[1]
-        end
         if length(mlist) > 1
-#            println("enter")
+            #            println("enter")
             global m1 = mult(m1,mlist[i+1]) ### mult modifies mt
         end
     end
@@ -80,7 +77,7 @@ end
 function dotruncate(p)
     pexpnd = expand(p)
     ptrunc = 0
-    for i in 0:1:2
+    for i in 3:1:4
         ptrunc = ptrunc + coeff(pexpnd,dE,Basic(i))*dE^i
     end
     return expand(ptrunc)
@@ -127,7 +124,8 @@ println("    Creating the transport matrix to second order in dE")
 
 mlist2 = Any[]
 push!(mlist2,mdstar)
-push!(mlist2,mq(quad(kk[1],ll[1])))
+push!(mlist2,mdstar)
+#push!(mlist2,mq(quad(kk[1],ll[1])))
 #push!(mlist2,mq(quad(kk[2],ll[2])))
 #push!(mlist2,mdstar)
 #println("length",length(mlist2))
