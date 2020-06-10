@@ -170,4 +170,6 @@ alfax = -Cx*Cpx*betax0 + (Cx*Spx + Sx*Cpx)*alfax0 - Sx*Spx*gamax0
 alfay = -Cy*Cpy*betay0 + (Cy*Spy + Sy*Cpy)*alfay0 - Sy*Spy*gamay0
 gamax =  (Cpx^2)*betax0 - 2*Cpx*Spx*alfax0 + (Spx^2)*gamax0
 gamay =  (Cpy^2)*betay0 - 2*Cpy*Spy*alfay0 + (Spy^2)*gamay0
+
+println"betax=",betax)
 exit()
