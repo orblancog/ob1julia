@@ -122,19 +122,15 @@ push!(mlist2,mq(quad(kk[1],ll[1])))
 #push!(mlist2,mdstar)
 #push!(mlist2,mdstar)
 #println("length",length(mlist2))
-m = dotransport(mlist2)
-#
-#R11 = dotaylor(expand(m[1][1]))
-#println("      R11 = ",expand(R11))
-#print(typeof(m[1,2]))
-println("m ",m)
+R = dotransport(mlist2)
+println("    matrix ",R)
 Rarraytaylor = Any[]
 for i in 1:4, j in 1:4
-    Rij = dotaylor(expand(m[i,j]))
+    Rij = dotaylor(expand(R[i,j]))
     push!(Rarraytaylor,Rij)
 end
 Rtaylor=transpose(reshape(Rarraytaylor,4,4))
-print("    Taylor expansion to second order of the matrix R")
+println("    Taylor expansion to second order of the matrix R")
 for i in 1:4, j in 1:4
     println("      R$i$j = ",expand(Rtaylor[i,j]))
 end
