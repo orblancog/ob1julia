@@ -131,7 +131,7 @@ println("m ",m)
 Rarraytaylor = Any[]
 for i in 1:4, j in 1:4
     Rij = dotaylor(expand(m[i,j]))
-    push!(Rarray,Rij)
+    push!(Rarraytaylor,Rij)
 end
 Rtaylor=transpose(reshape(Rarraytaylor,4,4))
 print("    Taylor expansion to second order of the matrix R")
