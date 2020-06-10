@@ -78,7 +78,7 @@ function dotaylor(p)
 end
 ### BEGIN of the script
 
-println("  OB1's APOCHROMAT DESIGN 0.1")
+println("  OB1's APOCHROMAT DESIGN 0.2")
 Nq = 2 # number of quadrupoles
 Nl = Nq - 1 # number of drifts
 println("    Using ",Nq," quads and ",Nl," drifts")
@@ -119,7 +119,7 @@ println("    Creating the transport matrix to second order in dE")
 mlist2 = Any[]
 push!(mlist2,mdstar)
 push!(mlist2,mq(quad(kk[1],ll[1])))
-#push!(mlist2,mdstar)
+push!(mlist2,mdstar)
 #push!(mlist2,mdstar)
 #println("length",length(mlist2))
 R = dotransport(mlist2)
