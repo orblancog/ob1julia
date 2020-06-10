@@ -17,6 +17,9 @@ struct quad
     k :: Basic
     l :: Basic
 end
+struct qquad
+    kl :: Basic
+end
 struct drift
     l :: Basic
 end
@@ -25,7 +28,14 @@ function mq(q)
     # horizontally  focusing quadrupole transport matrix
     # four rows
     # quad chromaticity k->k(1+dE)
-    R=[Basic[1 0 0 0];Basic[-1/(q.k*q.l*(1+dE)) 1 0 0];Basic[0 0 1 0];Basic[0 0 1/(q.k*(1+dE)*q.l) 1]]
+    R=[Basic[1 0 0 0];Basic[-(1+dE)/(q.k*q.l) 1 0 0];Basic[0 0 1 0];Basic[0 0 (1+dE)/(q.k*q.l) 1]]
+    return R
+end
+function mqq(q)
+    # horizontally  focusing quadrupole transport matrix
+    # four rows
+    # quad chromaticity k->k(1+dE)
+    R=[Basic[1 0 0 0];Basic[-(1+dE)/(q.kl) 1 0 0];Basic[0 0 1 0];Basic[0 0 (1+dE)/(q.kl) 1]]
     return R
 end
 function md(d)
@@ -84,8 +94,8 @@ function dotruncate(p)
 end
 ### BEGIN of the script
 
-println("  OB1's APOCHROMAT DESIGN 0.2")
-Nq = 5 # number of quadrupoles
+println("  OB1's APOCHROMAT DESIGN 0.3")
+Nq = 7 # number of quadrupoles
 Nl = Nq - 1 # number of drifts
 println("    Using ",Nq," quads and ",Nl," drifts")
 
@@ -94,6 +104,7 @@ println("    Creating symbols...")
 #R = [symbols("R$i$j") for i in 1:4, j in 1:4]
 kk = [symbols("k$i") for i in 1:Nq]
 ll = [symbols("l$i") for i in 1:Nq]
+kl = [symbols("kl$i") for i in 1:Nq]
 dd = [symbols("d$i") for i in 1:Nl]
 lstar = symbols("lstar")
 println("    symbols created.")
@@ -101,8 +112,9 @@ println("    symbols created.")
 ## create elements
 println("    Creating elements...")
 dstar = drift(lstar)
-q1 = quad(kk[1],ll[1])
-d1 = drift(dd[1])
+#q1  = quad(kk[1],ll[1])
+#qq1 = qquad(kl[1])#other type of quad, I hope faster
+#d1  = drift(dd[1])
 println("    elements created.")
 
 ### create matrices
@@ -110,10 +122,12 @@ println("    Creating matrix representation of the transport line...")
 mlist = Any[]
 mdstar = md(dstar)
 push!(mlist,mdstar) # last element first
-push!(mlist, mq(quad(kk[Nq],ll[Nq])))
+#push!(mlist, mq(quad(kk[Nq],ll[Nq])))
+push!(mlist, mqq(qquad(kl[Nq])))
 for i in Nl:-1:1
     push!(mlist, md(drift(dd[i])))
-    push!(mlist, mq(quad(kk[i],ll[i])))
+#    push!(mlist, mq(quad(kk[i],ll[i])))
+    push!(mlist, mqq(qquad(kl[i])))
 end
 push!(mlist,mdstar) # first elemen last 
 println("    ",length(mlist)," matrices created.")
