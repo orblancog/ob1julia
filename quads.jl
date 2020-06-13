@@ -41,7 +41,7 @@ end
 function md(d)
     # four rows
 #    R=[Basic[1 d.l 0 0];Basic[0 1 0 0];Basic[0 0 1 d.l];Basic[0 0 0 1]]
-    R=[Basic[1 1 0 0];Basic[0 1 0 0];Basic[0 0 1 1];Basic[0 0 0 1]]# fix drift to 1m
+    R=[Basic[1 d 0 0];Basic[0 1 0 0];Basic[0 0 1 d];Basic[0 0 0 1]]
     return R
 end
 
@@ -102,8 +102,8 @@ end
 
 ### BEGIN of the script
 
-println("  OB1's APOCHROMAT DESIGN 0.4")
-Nq = 7 # number of quadrupoles
+println("  OB1's APOCHROMAT DESIGN 0.5")
+Nq = 10 # number of quadrupoles
 Nl = Nq - 1 # number of drifts
 println("    Using ",Nq," quads and ",Nl," drifts")
 
@@ -128,12 +128,14 @@ println("    elements created.")
 ### create matrices
 println("    Creating matrix representation of the transport line...")
 mlist = Any[]
-mdstar = md(dstar)
+#mdstar = md(dstar)
+mdstar = md(0.1)
 push!(mlist,mdstar) # last element first
 #push!(mlist, mq(quad(kk[Nq],ll[Nq])))
 push!(mlist, mqq(qquad(kl[Nq])))
 for i in Nl:-1:1
-    push!(mlist, md(drift(dd[i])))
+#    push!(mlist, md(drift(dd[i])))
+    push!(mlist, md(1.0))
 #    push!(mlist, mq(quad(kk[i],ll[i])))
     push!(mlist, mqq(qquad(kl[i])))
 end
