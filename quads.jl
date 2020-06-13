@@ -40,7 +40,8 @@ function mqq(q)
 end
 function md(d)
     # four rows
-    R=[Basic[1 d.l 0 0];Basic[0 1 0 0];Basic[0 0 1 d.l];Basic[0 0 0 1]]
+#    R=[Basic[1 d.l 0 0];Basic[0 1 0 0];Basic[0 0 1 d.l];Basic[0 0 0 1]]
+    R=[Basic[1 1 0 0];Basic[0 1 0 0];Basic[0 0 1 1];Basic[0 0 0 1]]# fix drift to 1m
     return R
 end
 
@@ -72,7 +73,11 @@ end
 ### second order taylor expansion
 function dotaylor(p)
 #    print("create")
-    f   = expand(p)
+    fstart   = p#expand(p)
+    f = 0
+    for i in 0:1:2 ## zeroth to second order expansion
+        f = f + coeff(fstart,dE,Basic(i))*dE^i
+    end
     df  = diff(f,  dE)
     ddf = diff(df, dE)
     ff = [symbols("f$i") for i in 0:1:2]
@@ -92,9 +97,12 @@ function dotruncate(p)
     end
     return expand(ptrunc)
 end
+
+
+
 ### BEGIN of the script
 
-println("  OB1's APOCHROMAT DESIGN 0.3")
+println("  OB1's APOCHROMAT DESIGN 0.4")
 Nq = 7 # number of quadrupoles
 Nl = Nq - 1 # number of drifts
 println("    Using ",Nq," quads and ",Nl," drifts")
@@ -163,9 +171,11 @@ println("    Taylor expansion to second order of the matrix R")
 for i in 1:4, j in 1:4
     println("      R$i$j = ",expand(Rtaylor[i,j]))
 end
+exit()
 =#
-
 println("    Calculation of twiss parameters...")
+
+
 # twiss symbols as a function of dE
 betax = symbols("betax")
 betay = symbols("betay")
@@ -218,7 +228,7 @@ println("      gamaxtrunc = ",gamaxtrunc)
 println("      gamaytrunc = ",gamaytrunc)
 =#
 println("    Expansion finished")
-
+#exit()
 println("    Extracting chromatics derivatives")
 eqbetaxdE0=betaxtrunc
 eqbetaxdE1=diff(betaxtrunc,dE)*dE
