@@ -154,9 +154,37 @@ mlist2 = Any[]
 #push!(mlist2,mdstar)
 #println("length",length(mlist2))
 
+## first order apochromat, mpt104
+mlist3 = Any[]
+push!(mlist3,md(0.1))
+push!(mlist3,mqq(qquad(-7*0.371)))
+push!(mlist3,md(0.101))
+push!(mlist3,mqq(qquad( 7*0.426)))
+push!(mlist3,md(0.101))
+push!(mlist3,mqq(qquad(-5.759*0.394)))
+push!(mlist3,md(0.101))
+push!(mlist3,mqq(qquad( 0.543*2.297)))
+push!(mlist3,md(0.101))
+push!(mlist3,mqq(qquad(-0.761*1.778)))
+push!(mlist3,md(0.101))
+push!(mlist3,mqq(qquad( 3.388*0.410)))
+push!(mlist3,md(0.446))
+push!(mlist3,md(0.446))
+push!(mlist3,mqq(qquad(-3.388*0.410)))
+push!(mlist3,md(0.101))
+push!(mlist3,mqq(qquad( 0.761*1.778)))
+push!(mlist3,md(0.101))
+push!(mlist3,mqq(qquad(-0.543*2.297)))
+push!(mlist3,md(0.101))
+push!(mlist3,mqq(qquad( 5.759*0.394)))
+push!(mlist3,md(0.101))
+push!(mlist3,mqq(qquad(-7*0.426)))
+push!(mlist3,md(0.101))
+push!(mlist3,mqq(qquad( 7*0.371)))
+push!(mlist3,md(0.1))
 
+R = dotransport(mlist3)
 
-R = dotransport(mlist)
 #=
 println("    matrix ",R)
 =#
@@ -258,5 +286,18 @@ println("      eqalfaydE0 = ",eqalfaydE0)
 println("      eqalfaydE1 = ",eqalfaydE1)
 println("      eqalfaydE2 = ",eqalfaydE2)
 =#
+println("      eqbetaxdE0 = ",expand(subs(subs(eqbetaxdE0, alfax0, 0), gamax0, 1/betax0)))
+println("      eqbetaxdE1 = ",expand(subs(subs(eqbetaxdE1, alfax0, 0), gamax0, 1/betax0)))
+println("      eqbetaxdE2 = ",expand(subs(subs(eqbetaxdE2, alfax0, 0), gamax0, 1/betax0)))
+println("      eqbetaydE0 = ",expand(subs(subs(eqbetaydE0, alfax0, 0), gamax0, 1/betax0)))
+println("      eqbetaydE1 = ",expand(subs(subs(eqbetaydE1, alfax0, 0), gamax0, 1/betax0)))
+println("      eqbetaydE2 = ",expand(subs(subs(eqbetaydE2, alfax0, 0), gamax0, 1/betax0)))
+println("      eqalfaxdE0 = ",expand(subs(subs(eqalfaxdE0, alfax0, 0), gamax0, 1/betax0)))
+println("      eqalfaxdE1 = ",expand(subs(subs(eqalfaxdE1, alfax0, 0), gamax0, 1/betax0)))
+println("      eqalfaxdE2 = ",expand(subs(subs(eqalfaxdE2, alfax0, 0), gamax0, 1/betax0)))
+println("      eqalfaydE0 = ",expand(subs(subs(eqalfaydE0, alfax0, 0), gamax0, 1/betax0)))
+println("      eqalfaydE1 = ",expand(subs(subs(eqalfaydE1, alfax0, 0), gamax0, 1/betax0)))
+println("      eqalfaydE2 = ",expand(subs(subs(eqalfaydE2, alfax0, 0), gamax0, 1/betax0)))
+
 
 exit()
