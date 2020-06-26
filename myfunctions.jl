@@ -15,7 +15,21 @@ function mq(q)
     # horizontally  focusing quadrupole transport matrix
     # four rows
     # quad chromaticity k->k/(1+dE)
-    R=[Basic[cos(q.l*q.k/(1+dE)) sin(q.l*q.k/(1+dE))/(q.k/(1+dE)) 0 0]; Basic[-(q.k/(1+dE))*sin(q.l*q.k/(1+dE)) cos(q.l*q.k/(1+dE)) 0 0]; Basic[0 0 cosh(q.l*q.k/(1+dE)) sinh(q.l*q.k/(1+dE))/(q.k/(1+dE))]; Basic[0 0 (q.k/(1+dE))*sinh(q.l*q.k/(1+dE)) cosh(q.l*q.k/(1+dE))]]
+    Rf11=cos(q.l*q.k/(1+dE))
+    Rf12=sin(q.l*q.k/(1+dE))/(q.k/(1+dE))
+    Rf21=-(q.k/(1+dE))*sin(q.l*q.k/(1+dE))
+    Rf22=cos(q.l*q.k/(1+dE))
+    Rd11=cosh(q.l*q.k/(1+dE))
+    Rd12=sinh(q.l*q.k/(1+dE))/(q.k/(1+dE))
+    Rd21=(q.k/(1+dE))*sinh(q.l*q.k/(1+dE))
+    Rd22=cosh(q.l*q.k/(1+dE))
+#!    if (q.k <=0 )
+#        println("defoc")
+#        R=[Basic[Rd11 Rd12 0 0]; Basic[Rd21 Rd22 0 0]; Basic[0 0 Rf11 Rf12]; Basic[0 0 Rf21 Rf22]]
+#    else
+#        println("foc")
+        R=[Basic[Rf11 Rf12 0 0]; Basic[Rf21 Rf22 0 0]; Basic[0 0 Rd11 Rd12]; Basic[0 0 Rd21 Rd22]]
+#    end
     return R
 end
 function mqq(q)
@@ -63,7 +77,7 @@ function dotaylor(p)
     ddp = diff(dp, dE)
     f = subs(p, dE, 0) + subs(dp, dE, 0)*dE + 0.5*subs(ddp, dE, 0)*dE^2
     ftaylor = expand(f)
-    #=
+#=
     println("o0 : ",subs(p, dE, 0))
     println("o1 : ",subs(dp, dE, 0))
     println("o2 : ",subs(ddp, dE, 0))

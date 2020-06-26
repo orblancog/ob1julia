@@ -66,6 +66,7 @@ println("    Creating the transport matrix to second order in dE")
 
 mlist2 = Any[]
 push!(mlist2,mq(quad(kk[1],ll[1])))
+#push!(mlist2,mq(quad(-2.3,ll[1])))
 push!(mlist2,mdstar)
 #push!(mlist2,mdstar)
 # #push!(mlist2,mq(quad(kk[2],ll[2])))
@@ -77,7 +78,7 @@ R = dotransport(mlist2)
 
 #R = dotransport(mpt104())
 
-#=
+#= Print R matrix
 #println("    matrix ",R)
 for i in 1:4, j in 1:4
     println("      R$i$j = ",R[i,j])
@@ -88,24 +89,17 @@ end
 
 Rarraytaylor = Any[]
 for i in 1:4, j in 1:4
-#        if i==1 && j==2
-            Rij = dotaylor(expand(R[i,j]))
-            push!(Rarraytaylor,Rij)
-#        end
+    Rij = dotaylor(expand(R[i,j]))
+    push!(Rarraytaylor,Rij)
 end
-#exit()
-
 Rtaylor=transpose(reshape(Rarraytaylor,4,4))
-
-println("    Taylor expansion to second order of the matrix R")
 #=
+println("    Taylor expansion to second order of the matrix R")
 for i in 1:4, j in 1:4
-
-        println("      R$i$j = ",expand(Rtaylor[i,j]))
-    end
+        println("      Rtaylor$i$j = ",Rtaylor[i,j])
 end
 =#
-#exit()
+
 println("    Calculation of twiss parameters...")
 # twiss symbols as a function of dE
 betax = symbols("betax")
@@ -127,12 +121,12 @@ Cy = symbols("Cy")
 Sx = symbols("Sx")
 Sy = symbols("Sy")
 Cx  = Rtaylor[1,1]
-Cy  = Rtaylor[3,3]
 Sx  = Rtaylor[1,2]
-Sy  = Rtaylor[3,4]
 Cpx = Rtaylor[2,1]
-Cpy = Rtaylor[4,3]
 Spx = Rtaylor[2,2]
+Cy  = Rtaylor[3,3]
+Sy  = Rtaylor[3,4]
+Cpy = Rtaylor[4,3]
 Spy = Rtaylor[4,4]
 
 betax =  (Cx^2)*betax0  - 2*Cx*Sx*alfax0 + (Sx^2)*gamax0
