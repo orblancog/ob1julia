@@ -73,9 +73,9 @@ push!(mlist2,mdstar)
 # println("length",length(mlist2))
 # println(mlist2)
 # exit()
-#R = dotransport(mlist2)
+R = dotransport(mlist2)
 
-R = dotransport(mpt104())
+#R = dotransport(mpt104())
 
 #=
 #println("    matrix ",R)
