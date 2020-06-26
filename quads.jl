@@ -129,12 +129,12 @@ Sy  = Rtaylor[3,4]
 Cpy = Rtaylor[4,3]
 Spy = Rtaylor[4,4]
 
-betax =  (Cx^2)*betax0  - 2*Cx*Sx*alfax0 + (Sx^2)*gamax0
-betay =  (Cy^2)*betay0  - 2*Cy*Sy*alfay0 + (Sy^2)*gamay0
-alfax = -Cx*Cpx*betax0 + (Cx*Spx + Sx*Cpx)*alfax0 - Sx*Spx*gamax0
-alfay = -Cy*Cpy*betay0 + (Cy*Spy + Sy*Cpy)*alfay0 - Sy*Spy*gamay0
-gamax =  (Cpx^2)*betax0 - 2*Cpx*Spx*alfax0 + (Spx^2)*gamax0
-gamay =  (Cpy^2)*betay0 - 2*Cpy*Spy*alfay0 + (Spy^2)*gamay0
+betax =   (Cx^2)*betax0  -           2*Cx*Sx*alfax0 +  (Sx^2)*gamax0
+alfax =  -Cx*Cpx*betax0  + (Cx*Spx + Sx*Cpx)*alfax0 -  Sx*Spx*gamax0
+gamax =  (Cpx^2)*betax0  -         2*Cpx*Spx*alfax0 + (Spx^2)*gamax0
+betay =   (Cy^2)*betay0  -           2*Cy*Sy*alfay0 +  (Sy^2)*gamay0
+alfay =  -Cy*Cpy*betay0  + (Cy*Spy + Sy*Cpy)*alfay0 -  Sy*Spy*gamay0
+gamay =  (Cpy^2)*betay0  -         2*Cpy*Spy*alfay0 + (Spy^2)*gamay0
 println("    ... twiss parameters defined")
 
 println("    Expanding twiss parameters to second order in dE")

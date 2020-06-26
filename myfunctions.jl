@@ -86,11 +86,11 @@ function dotaylor(p)
 end
 ### truncate expansion
 function dotruncate(p)
-    pexpnd = expand(p)
+    dp  = diff(p,  dE)
+    ddp = diff(dp, dE)
     ptrunc = 0
-    for i in 0:1:2 ## zeroth to second order expansion
-        ptrunc = ptrunc + coeff(pexpnd,dE,Basic(i))*dE^i
-    end
-    return expand(ptrunc)
+    f = subs(p, dE, 0) + subs(dp, dE, 0)*dE + subs(ddp, dE, 0)*dE^2
+    ftrunc = expand(f)
+    return ftrunc
 end
 
