@@ -5,7 +5,7 @@
 function mq(q)
     # horizontally  focusing quadrupole transport matrix
     # four rows
-    # quad chromaticity k->k(1+dE)
+    # quad chromaticity k->k/(1+dE)
     R=[Basic[1 0 0 0]; Basic[-(1+dE)/(q.k*q.l) 1 0 0]; Basic[0 0 1 0];Basic[0 0 (1+dE)/(q.k*q.l) 1]]
     return R
 end
@@ -14,8 +14,8 @@ end
 function mq(q)
     # horizontally  focusing quadrupole transport matrix
     # four rows
-    # quad chromaticity k->k(1+dE)
-    R=[Basic[cos((1+dE)*q.k*q.l) sin((1+dE)*q.k*q.l)/(q.k*(1+dE)) 0 0]; Basic[-(1+dE)*q.k*sin((1+dE)*q.k*q.l) cos((1+dE)*q.k*q.l) 0 0]; Basic[0 0 cosh((1+dE)*q.k*q.l) sinh((1+dE)*q.k*q.l)/((1+dE)*q.k)]; Basic[0 0 (1+dE)*q.k*sinh((1+dE)*q.k*q.l) cosh((1+dE)*q.k*q.l)]]
+    # quad chromaticity k->k/(1+dE)
+    R=[Basic[cos(q.l*q.k/(1+dE)) sin(q.l*q.k/(1+dE))/(q.k/(1+dE)) 0 0]; Basic[-(q.k/(1+dE))*sin(q.l*q.k/(1+dE)) cos(q.l*q.k/(1+dE)) 0 0]; Basic[0 0 cosh(q.l*q.k/(1+dE)) sinh(q.l*q.k/(1+dE))/(q.k/(1+dE))]; Basic[0 0 (q.k/(1+dE))*sinh(q.l*q.k/(1+dE)) cosh(q.l*q.k/(1+dE))]]
     return R
 end
 function mqq(q)
@@ -63,6 +63,11 @@ function dotaylor(p)
     ddp = diff(dp, dE)
     f = subs(p, dE, 0) + subs(dp, dE, 0)*dE + 0.5*subs(ddp, dE, 0)*dE^2
     ftaylor = expand(f)
+    #=
+    println("o0 : ",subs(p, dE, 0))
+    println("o1 : ",subs(dp, dE, 0))
+    println("o2 : ",subs(ddp, dE, 0))
+=#
     return ftaylor
 end
 ### truncate expansion

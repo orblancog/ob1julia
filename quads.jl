@@ -73,9 +73,9 @@ push!(mlist2,mdstar)
 # println("length",length(mlist2))
 # println(mlist2)
 # exit()
-R = dotransport(mlist2)
+#R = dotransport(mlist2)
 
-#R = dotransport(mpt104())
+R = dotransport(mpt104())
 
 #=
 #println("    matrix ",R)
@@ -88,18 +88,24 @@ end
 
 Rarraytaylor = Any[]
 for i in 1:4, j in 1:4
-    Rij = dotaylor(expand(R[i,j]))
-    push!(Rarraytaylor,Rij)
+#        if i==1 && j==2
+            Rij = dotaylor(expand(R[i,j]))
+            push!(Rarraytaylor,Rij)
+#        end
 end
+#exit()
 
 Rtaylor=transpose(reshape(Rarraytaylor,4,4))
 
 println("    Taylor expansion to second order of the matrix R")
+#=
 for i in 1:4, j in 1:4
-    println("      R$i$j = ",expand(Rtaylor[i,j]))
-end
 
-exit()
+        println("      R$i$j = ",expand(Rtaylor[i,j]))
+    end
+end
+=#
+#exit()
 println("    Calculation of twiss parameters...")
 # twiss symbols as a function of dE
 betax = symbols("betax")
