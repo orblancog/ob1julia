@@ -15,14 +15,14 @@ function mq(q)
     # horizontally  focusing quadrupole transport matrix
     # four rows
     # quad chromaticity k->k/(1+dE)
-    Rf11=cos(q.l*sqrt(abs(q.k))/(1+dE))
-    Rf12=sin(q.l*sqrt(abs(q.k))/(1+dE))/(sqrt(abs(q.k))/(1+dE))
-    Rf21=-(sqrt(abs(q.k))/(1+dE))*sin(q.l*sqrt(abs(q.k))/(1+dE))
-    Rf22=cos(q.l*sqrt(abs(q.k))/(1+dE))
-    Rd11=cosh(q.l*sqrt(abs(q.k))/(1+dE))
-    Rd12=sinh(q.l*sqrt(abs(q.k))/(1+dE))/(sqrt(abs(q.k))/(1+dE))
-    Rd21=(sqrt(abs(q.k))/(1+dE))*sinh(q.l*sqrt(abs(q.k))/(1+dE))
-    Rd22=cosh(q.l*sqrt(abs(q.k))/(1+dE))
+    Rf11 =   cos(q.l*sqrt(abs(q.k))/(1+dE))
+    Rf12 =  sin(q.l*sqrt(abs(q.k))/(1+dE)) / (sqrt(abs(q.k))/(1+dE))
+    Rf21 = -(sqrt(abs(q.k))/(1+dE))*sin(q.l*sqrt(abs(q.k))/(1+dE))
+    Rf22 =  Rf11
+    Rd11 =  cosh(q.l*sqrt(abs(q.k))/(1+dE))
+    Rd12 =  sinh(q.l*sqrt(abs(q.k))/(1+dE))/(sqrt(abs(q.k))/(1+dE))
+    Rd21 =  (sqrt(abs(q.k))/(1+dE))*sinh(q.l*sqrt(abs(q.k))/(1+dE))
+    Rd22 =  Rd11
     if (q.k <=0 )
         println("      quad defoc")
         R=[Basic[Rd11 Rd12 0 0]; Basic[Rd21 Rd22 0 0]; Basic[0 0 Rf11 Rf12]; Basic[0 0 Rf21 Rf22]]

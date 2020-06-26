@@ -30,7 +30,10 @@ call, file="mubeam.madx";
 !call, file="cell.madx";
 call, file = "mpt104.seq";
 !stop;
-use, sequence=mpt104;
+qq1: quadrupole, l=1, k1=7;
+lineq1 : line := ( qq1 );
+!use, sequence=mpt104;
+use, sequence=lineq1;
 brhofactor := 1;
 ! twiss
 twiss_select_MDISim := 1;
@@ -45,6 +48,7 @@ select, flag=twiss, column=name, keyword, s,l,k1l, betx, bety, alfx, alfy, wx, w
 twiss,
 betx=0.2,bety=0.2,
 deltap = 0, chrom, file="twiss.mu.tfs";
+stop;
 plot, haxis=s,hmax=14, vaxis=betx,bety;
 plot, haxis=s,hmax=14, vaxis=wx,wy;
 twiss, deltap = +0.05, chrom, file="twiss.mu_piu_0p05.tfs";

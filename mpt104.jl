@@ -3,7 +3,7 @@
 function mpt104()
     mpt104 = Any[]
     push!(mpt104,md(0.1))
-    push!(mpt104,mq(quad(-7,0.371)))
+    push!(mpt104,mq(quad(-7,0.185405*2)))
     return mpt104
     push!(mpt104,md(0.101))
     push!(mpt104,mq(quad( 7,0.426)))
