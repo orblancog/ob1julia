@@ -20,7 +20,7 @@ dE=symbols(:dE);
 
 ### BEGIN of the script
 
-println("  OB1's APOCHROMAT DESIGN 0.6")
+println("  OB1's APOCHROMAT DESIGN 0.7")
 Nq = 10 # number of quadrupoles
 Nl = Nq - 1 # number of drifts
 #println("    Using ",Nq," quads and ",Nl," drifts")
@@ -37,7 +37,7 @@ println("    symbols created.")
 
 ## create elements
 println("    Creating elements...")
-dstar = drift(lstar)
+#dstar = drift(lstar)
 #q1  = quad(kk[1],ll[1])
 #qq1 = qquad(kl[1])#other type of quad, I hope faster
 #d1  = drift(dd[1])
@@ -46,22 +46,22 @@ println("    elements created.")
 ### create matrices
 println("    Creating matrix representation of the transport line...")
 mlist = Any[]
-#mdstar = md(dstar)
-mdstar = md(lstar)
-push!(mlist,mdstar) # last element first
-#push!(mlist, mq(quad(kk[Nq],ll[Nq])))
-push!(mlist, mqq(qquad(kl[Nq])))
-for i in Nl:-1:1
-#    push!(mlist, md(drift(dd[i])))
-    push!(mlist, md(1.0))
-#    push!(mlist, mq(quad(kk[i],ll[i])))
-    push!(mlist, mqq(qquad(kl[i])))
-end
-push!(mlist,mdstar) # first elemen last 
-println("    ",length(mlist)," matrices created.")
-println("    Transport line created. Adios !")
+# #mdstar = md(dstar)
+# mdstar = md(lstar)
+# push!(mlist,mdstar) # last element first
+# #push!(mlist, mq(quad(kk[Nq],ll[Nq])))
+# push!(mlist, mqq(qquad(kl[Nq])))
+# for i in Nl:-1:1
+# #    push!(mlist, md(drift(dd[i])))
+#     push!(mlist, md(1.0))
+# #    push!(mlist, mq(quad(kk[i],ll[i])))
+#     push!(mlist, mqq(qquad(kl[i])))
+# end
+# push!(mlist,mdstar) # first elemen last 
+# println("    ",length(mlist)," matrices created.")
+# println("    Transport line created. Adios !")
 
-println("    Creating the transport matrix to second order in dE")
+ println("    Creating the transport matrix to second order in dE")
 #m = dotransport(mlist)
 
 mlist2 = Any[]
@@ -78,6 +78,7 @@ mlist2 = Any[]
 
 R = dotransport(mpt104())
 
+
 #= Print R matrix
 #println("    matrix ",R)
 for i in 1:4, j in 1:4
@@ -86,7 +87,7 @@ end
 =#
 
 
-
+println("    Taylor expansion to second order of the matrix R")
 Rarraytaylor = Any[]
 for i in 1:4, j in 1:4
     Rij = dotaylor(expand(R[i,j]))
@@ -94,7 +95,6 @@ for i in 1:4, j in 1:4
 end
 Rtaylor=transpose(reshape(Rarraytaylor,4,4))
 #=
-println("    Taylor expansion to second order of the matrix R")
 for i in 1:4, j in 1:4
         println("      Rtaylor$i$j = ",Rtaylor[i,j])
 end
@@ -155,18 +155,32 @@ println("      gamaytrunc = ",gamaytrunc)
 println("    Expansion finished")
 #exit()
 println("    Extracting chromatics derivatives")
+#=
 eqbetaxdE0=betaxtrunc
 eqbetaxdE1=diff(betaxtrunc,dE)*dE
-eqbetaxdE2=0.5diff(diff(betaxtrunc,dE),dE)*dE^2
+eqbetaxdE2=0.5*diff(diff(betaxtrunc,dE),dE)*dE^2
 eqbetaydE0=betaytrunc
 eqbetaydE1=diff(betaytrunc,dE)*dE
-eqbetaydE2=0.5diff(diff(betaytrunc,dE),dE)*dE^2
+eqbetaydE2=0.5*diff(diff(betaytrunc,dE),dE)*dE^2
 eqalfaxdE0=alfaxtrunc
 eqalfaxdE1=diff(alfaxtrunc,dE)*dE
-eqalfaxdE2=0.5diff(diff(alfaxtrunc,dE),dE)*dE^2
+eqalfaxdE2=0.5*diff(diff(alfaxtrunc,dE),dE)*dE^2
 eqalfaydE0=alfaytrunc
 eqalfaydE1=diff(alfaytrunc,dE)*dE
-eqalfaydE2=0.5diff(diff(alfaytrunc,dE),dE)*dE^2
+eqalfaydE2=0.5*diff(diff(alfaytrunc,dE),dE)*dE^2
+=#
+eqbetaxdE0=subs(betaxtrunc, dE, 0)
+eqbetaxdE1=subs(diff(betaxtrunc,dE), dE, 0 )*dE
+eqbetaxdE2=0.5*subs(diff(diff(betaxtrunc,dE),dE), dE, 0)*dE^2
+eqbetaydE0=subs(betaytrunc, dE, 0)
+eqbetaydE1=subs(diff(betaytrunc,dE), dE, 0)*dE
+eqbetaydE2=0.5*subs(diff(diff(betaytrunc,dE),dE), dE, 0)*dE^2
+eqalfaxdE0=subs(alfaxtrunc, dE, 0)
+eqalfaxdE1=subs(diff(alfaxtrunc,dE), dE, 0)*dE
+eqalfaxdE2=0.5*subs(diff(diff(alfaxtrunc,dE),dE), dE, 0)*dE^2
+eqalfaydE0=subs(alfaytrunc, dE, 0)
+eqalfaydE1=subs(diff(alfaytrunc,dE), dE, 0)*dE
+eqalfaydE2=0.5*subs(diff(diff(alfaytrunc,dE),dE), dE, 0)*dE^2
 #=
 println("      eqbetaxdE0 = ",eqbetaxdE0)
 println("      eqbetaxdE1 = ",eqbetaxdE1)
@@ -181,18 +195,21 @@ println("      eqalfaydE0 = ",eqalfaydE0)
 println("      eqalfaydE1 = ",eqalfaydE1)
 println("      eqalfaydE2 = ",eqalfaydE2)
 =#
+
+#x
 println("      eqbetaxdE0 = ",expand(subs(subs(eqbetaxdE0, alfax0, 0), gamax0, 1/betax0)))
-#println("      eqbetaxdE1 = ",expand(subs(subs(eqbetaxdE1, alfax0, 0), gamax0, 1/betax0)))
+println("      eqbetaxdE1 = ",expand(subs(subs(eqbetaxdE1, alfax0, 0), gamax0, 1/betax0)))
 #println("      eqbetaxdE2 = ",expand(subs(subs(eqbetaxdE2, alfax0, 0), gamax0, 1/betax0)))
-println("      eqbetaydE0 = ",expand(subs(subs(eqbetaydE0, alfay0, 0), gamay0, 1/betay0)))
-#println("      eqbetaydE1 = ",expand(subs(subs(eqbetaydE1, alfay0, 0), gamax0, 1/betay0)))
-#println("      eqbetaydE2 = ",expand(subs(subs(eqbetaydE2, alfay0, 0), gamax0, 1/betay0)))
 #println("      eqalfaxdE0 = ",expand(subs(subs(eqalfaxdE0, alfax0, 0), gamax0, 1/betax0)))
 #println("      eqalfaxdE1 = ",expand(subs(subs(eqalfaxdE1, alfax0, 0), gamax0, 1/betax0)))
 #println("      eqalfaxdE2 = ",expand(subs(subs(eqalfaxdE2, alfax0, 0), gamax0, 1/betax0)))
-#println("      eqalfaydE0 = ",expand(subs(subs(eqalfaydE0, alfax0, 0), gamax0, 1/betax0)))
-#println("      eqalfaydE1 = ",expand(subs(subs(eqalfaydE1, alfax0, 0), gamax0, 1/betax0)))
-#println("      eqalfaydE2 = ",expand(subs(subs(eqalfaydE2, alfax0, 0), gamax0, 1/betax0)))
+#y
+println("      eqbetaydE0 = ",expand(subs(subs(eqbetaydE0, alfay0, 0), gamay0, 1/betay0)))
+println("      eqbetaydE1 = ",expand(subs(subs(eqbetaydE1, alfay0, 0), gamay0, 1/betay0)))
+#println("      eqbetaydE2 = ",expand(subs(subs(eqbetaydE2, alfay0, 0), gamay0, 1/betay0)))
+#println("      eqalfaydE0 = ",expand(subs(subs(eqalfaydE0, alfay0, 0), gamay0, 1/betay0)))
+#println("      eqalfaydE1 = ",expand(subs(subs(eqalfaydE1, alfay0, 0), gamay0, 1/betay0)))
+#println("      eqalfaydE2 = ",expand(subs(subs(eqalfaydE2, alfay0, 0), gamay0, 1/betay0)))
 
 
 exit()
