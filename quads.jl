@@ -66,8 +66,10 @@ mlist = Any[]
 
 mlist2 = Any[]
 #push!(mlist2,mq(quad(kk[1],ll[1])))
+push!(mlist2,md(1))
+push!(mlist2,mq(quad(-7,1)))
+push!(mlist2,md(1))
 push!(mlist2,mq(quad(7,1)))
-#push!(mlist2,mdstar)
 #push!(mlist2,mdstar)
 # #push!(mlist2,mq(quad(kk[2],ll[2])))
 # #push!(mlist2,mdstar)
