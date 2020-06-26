@@ -1,0 +1,209 @@
+title, "mpt 104";
+option, echo, warn;
+! set precision
+!set,format="-18s","11.3g";  ! my standard compact format
+set,format="-18s","11.6g";  ! my standard compact format
+
+! calculating fields and others
+call, file="myvars.madx";
+
+!! Aperture
+Rapert := 10e-3;![m]
+
+betx0 = 1;
+bety0 = 1;
+
+! beam
+call, file="mubeam.madx";
+
+! the line
+!call, file="elements.madx";
+!call, file="cell.madx";
+
+!call, file="resmatch.madx";
+!call, file="resmark38.madx";
+
+!match
+!call, file="match.madx";
+!stop;
+
+!call, file="cell.madx";
+call, file = "mpt104.seq";
+!stop;
+use, sequence=mpt104;
+brhofactor := 1;
+! twiss
+twiss_select_MDISim := 1;
+twiss_select_rmat   := 1;
+survey_select_all   := 0;
+call, file="twiss_select.madx";
+call, file="survey_select.madx";
+twiss, deltap = 0, chrom, file="twiss.mu.strength.tfs";
+
+select, flag=twiss, clear;
+select, flag=twiss, column=name, keyword, s,l,k1l, betx, bety, alfx, alfy, wx, wy;
+twiss,
+betx=0.2,bety=0.2,
+deltap = 0, chrom, file="twiss.mu.tfs";
+plot, haxis=s,hmax=14, vaxis=betx,bety;
+plot, haxis=s,hmax=14, vaxis=wx,wy;
+twiss, deltap = +0.05, chrom, file="twiss.mu_piu_0p05.tfs";
+plot, haxis=s,hmax=14, vaxis=betx,bety;
+plot, haxis=s,hmax=14, vaxis=wx,wy;
+twiss, deltap = -0.05, chrom, file="twiss.mu_men_0p05.tfs";
+plot, haxis=s,hmax=14, vaxis=betx,bety;
+plot, haxis=s,hmax=14, vaxis=wx,wy;
+brhofactor := 2;
+twiss,
+betx= 0.488, bety=0.488, alfx=0.115, alfy = -0.114,
+deltap = 0, chrom, file="twiss.pos.tfs";
+plot, haxis=s,hmax=14, vaxis=betx,bety;
+plot, haxis=s,hmax=14, vaxis=wx,wy;
+stop;
+
+/*
+use, sequence=cc38;
+savebeta, label=betaffacell, place=#s;
+twiss, chrom,file="twiss.arcffa.tfs";
+plot, title="ffa cell",interpolate, noversion, colour=100, haxis=s, hmax=2.0,  vaxis1=betx,bety, vaxis2=dx;
+plot, title="ffa cell",           , noversion, colour=100, haxis=s, hmax=2.0,  vaxis1=wx,wy, vaxis2=ddx;
+plot, title="ffa cell",           , noversion, colour=100, haxis=s, hmax=2.0,  vaxis1=dpx, vaxis2=ddx;
+
+use, sequence=cc38a;
+savebeta, label=betaffacella, place=#s;
+twiss, chrom,file="twiss.arcffa.tfs";
+plot, title="ffa cell a",interpolate, noversion, colour=100, haxis=s, hmax=2.0,  vaxis1=betx,bety, vaxis2=dx;
+plot, title="ffa cell a",           , noversion, colour=100, haxis=s, hmax=2.0,  vaxis1=wx,wy, vaxis2=ddx;
+plot, title="ffa cell a",           , noversion, colour=100, haxis=s, hmax=2.0,  vaxis1=dpx, vaxis2=ddx;
+use, sequence=cc38b;
+savebeta, label=betaffacellb, place=#s;
+twiss, chrom,file="twiss.arcffa.tfs";
+plot, title="ffa cell b",interpolate, noversion, colour=100, haxis=s, hmax=2.0,  vaxis1=betx,bety, vaxis2=dx;
+plot, title="ffa cell b",           , noversion, colour=100, haxis=s, hmax=2.0,  vaxis1=wx,wy, vaxis2=ddx;
+plot, title="ffa cell b",           , noversion, colour=100, haxis=s, hmax=2.0,  vaxis1=dpx, vaxis2=ddx;
+use, sequence=cc38zdr;
+twiss, beta0=betaffacell, chrom,file="twiss.ffazerodisp.tfs";
+plot, title="ffa cell zdr",interpolate, noversion, colour=100, haxis=s, hmax=2.0,  vaxis1=betx,bety, vaxis2=dx;
+plot, title="ffa cell zdr",           , noversion, colour=100, haxis=s, hmax=2.0,  vaxis1=wx,wy, vaxis2=ddx;
+*/
+use, sequence=mpt109;
+twiss,
+!betx=0.2,bety=0.2,dx=0,dpx=.00,dy=0,dpy=0.0,
+chrom, file="twiss.irmu.tfs";
+survey, file="survey.irmu.tfs";
+plot, title="mu", interpolate, noversion, colour=100, haxis=s, hmax=40,  vaxis1=betx,bety, vaxis2=dx,dy;
+plot, title="mu", interpolate, noversion, colour=100, haxis=s, hmax=40,  vaxis1=mux,muy, vaxis2=dx,dy;
+plot, title="mu",            , noversion, colour=100, haxis=s, hmax=40,  vaxis1=wx,wy, vaxis2=ddx,ddy;
+twiss, deltap =  0.04,
+!betx=0.2,bety=0.2,dx=0,dpx=.00,dy=0,dpy=0.0,
+chrom, file="twiss.irmu.dp_m05.tfs";
+survey, file="survey.irmu.tfs";
+!plot, title="mu deltap pos%", interpolate, noversion, colour=100, haxis=s, hmax=40,  vaxis1=betx,bety, vaxis2=dx,dy;
+!plot, title="mu", interpolate, noversion, colour=100, haxis=s, hmax=40,  vaxis1=mux,muy, vaxis2=dx,dy;
+plot, title="mu deltap pos",             noversion, colour=100, haxis=s, hmax=40,  vaxis1=wx,wy, vaxis2=ddx,ddy;
+twiss, deltap = -0.04,
+!betx=0.2,bety=0.2,dx=0,dpx=.00,dy=0,dpy=0.0,
+chrom, file="twiss.irmu.dp_p05.tfs";
+survey, file="survey.irmu.tfs";
+!plot, title="mu deltap neg%", interpolate, noversion, colour=100, haxis=s, hmax=40,  vaxis1=betx,bety, vaxis2=dx,dy;
+!plot, title="mu", interpolate, noversion, colour=100, haxis=s, hmax=40,  vaxis1=mux,muy, vaxis2=dx,dy;
+plot, title="mu deltap neg",             noversion, colour=100, haxis=s, hmax=40,  vaxis1=wx,wy, vaxis2=ddx,ddy;
+!stop;
+!use, sequence=inse001;
+!twiss, betx=betx0muinse, bety=bety0muinse,chrom, file="twiss.insemu.tfs";
+!plot, title="insertion, mu", interpolate, noversion, colour=100, haxis=s, hmax=40.0,  vaxis1=betx,bety, vaxis2=dx,dy;
+!plot, title="insertion, mu",            , noversion, colour=100, haxis=s, hmax=40.0,  vaxis1=wx,wy, vaxis2=ddx,ddy;
+!use, sequence=vdl001;
+!twiss,
+!beta0=betaffacell,
+!chrom, file="twiss.vtransmu.tfs";
+!plot, title="v trans, mu", interpolate, noversion, colour=100, haxis=s, hmax=40.0,  vaxis1=betx,bety, vaxis2=dx,dy;
+!plot, title="v trans, mu",            , noversion, colour=100, haxis=s, hmax=40.0,  vaxis1=wx,wy, vaxis2=ddx,ddy;
+!survey,file="survey.trans.tfs";
+!stop;
+
+!use, sequence=mpt109ir,range=#s/midp;
+brhofactor := 2;
+twiss,
+betx=0.5, bety=0.5, dx=0.0,
+chrom, file="twiss.irp.tfs";
+plot, title="p", interpolate, noversion, colour=100, haxis=s, hmax=40,  vaxis1=betx,bety, vaxis2=dx,dy;
+plot, title="p",            , noversion, colour=100, haxis=s, hmax=40,  vaxis1=wx,wy, vaxis2=ddx;
+!stop;
+
+use, sequence=mk38;
+brhofactor := 1;
+! twiss
+twiss_select_MDISim := 1;
+twiss_select_rmat   := 1;
+survey_select_all   := 0;
+!stop;
+
+savebeta, label=betaSTART, place=#s;
+call, file="twiss_select.madx";
+system, "rm -f betaSTART.txt";
+call, file="survey_select.madx";
+survey, file="survey.tfs";
+twiss,
+!betx=0.2, bety=0.2, dx=0.0, dpx=0.00,
+chrom, file = "twiss.tfs";
+survey, file = "survey.tfs";
+!assign, echo="betaSTART.txt";
+!show, betaSTART;
+!assign, echo=terminal;
+!stop;
+! plots
+/*
+plot, interpolate, noversion, colour=100, haxis=s, hmax=30.0,  vaxis1=betx,bety, vaxis2=dx,dy;
+
+plot, interpolate, noversion, colour=100, haxis=s, hmax=30.0,  vaxis1=mux,muy;
+!plot, interpolate, noversion, colour=100, haxis=s, hmin=90, hmax=115.0,  vaxis1=betx,bety, vaxis2=dx;
+plot,                         colour=100, haxis=s, hmax=30.0,  vaxis1=wx,wy,     vaxis2=ddx,ddy;
+!plot, interpolate, colour=100, haxis=s, hmax=4.0,  vaxis1=ddx,ddy, vaxis2=dx;
+plot, interpolate, colour=100, haxis=s, hmax=400, vaxis1=betx,bety, vaxis2=dx,dy;
+plot, interpolate, colour=100, haxis=s, hmax=400, vaxis1=wx,wy, vaxis2=ddx,ddy;
+plot, interpolate, noversion,colour=100, haxis=s, hmax=400, vaxis1=sx_mm,sy_mm;
+!plot, interpolate, noversion,colour=100, haxis=s, hmax=140, vaxis1=nsx_mm,nsy_mm;
+!stop;
+!emit,deltap = 0;
+!survey, file="PANTALEOmuacc21_survey.tfs";
+
+!! checking on ptc
+ptc_create_universe;
+ptc_create_layout,time=false,model=2,method=6,nst=10;
+select, flag=ptc_twiss, clear;
+select, flag=ptc_twiss, column=name,s,l,beta11,beta22,disp1,disp1p;
+ptc_twiss,icase=56, no=4, file="ptctwiss.tfs",summary_table;
+ptc_end;
+
+! !! Interesting when setting the cavity
+! ptc_create_universe;
+! ptc_create_layout,model=2,method=6,nst=10;
+! !ptc_normal,icase=5,no=8,deltap=0.00;
+! ptc_twiss, icase=6, no=4, deltap=0, closed_orbit, deltap_dependency,
+!   slice_magnets, file="PANTALEOmuacc20_ptctwiss.tfs",table,
+!   summary_file,summary_table;
+! ptc_end;
+
+
+
+! rf cavity params
+ca1ON := 1;
+harmon1 := 1200;
+lagca1  := 0.5;
+voltca1 := ca1ON*200;
+emit;
+!stop;
+! tracking turns
+nturns := 10;
+deltaemax:=0.1; !0.70;
+deltaemin := -deltaemax;
+deltaestep:=1.e-2;
+!stop;
+call, file="ptc_track.madx";
+*/
+
+!! outputs 
+set,format="-18s","11.12g";  ! my standard compact format
+save, sequence = mk38, file="mk38.seq";
+stop;

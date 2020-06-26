@@ -4,6 +4,7 @@ function mpt104()
     mpt104 = Any[]
     push!(mpt104,md(0.1))
     push!(mpt104,mq(quad(-7,0.371)))
+    return mpt104
     push!(mpt104,md(0.101))
     push!(mpt104,mq(quad( 7,0.426)))
     push!(mpt104,md(0.101))

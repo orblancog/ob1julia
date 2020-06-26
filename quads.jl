@@ -197,17 +197,17 @@ println("      eqalfaydE2 = ",eqalfaydE2)
 =#
 
 #x
-println("      eqbetaxdE0 = ",expand(subs(subs(eqbetaxdE0, alfax0, 0), gamax0, 1/betax0)))
-println("      eqbetaxdE1 = ",expand(subs(subs(eqbetaxdE1, alfax0, 0), gamax0, 1/betax0)))
+println("      eqbetaxdE0 = ",expand(subs(subs(subs(eqbetaxdE0, alfax0, 0), gamax0, 1/betax0),betax0, 0.2)))
+#println("      eqbetaxdE1 = ",expand(subs(subs(eqbetaxdE1, alfax0, 0), gamax0, 1/betax0)))
 #println("      eqbetaxdE2 = ",expand(subs(subs(eqbetaxdE2, alfax0, 0), gamax0, 1/betax0)))
-#println("      eqalfaxdE0 = ",expand(subs(subs(eqalfaxdE0, alfax0, 0), gamax0, 1/betax0)))
+println("      eqalfaxdE0 = ",expand(subs(subs(subs(eqalfaxdE0, alfax0, 0), gamax0, 1/betax0),betax0, 0.2)))
 #println("      eqalfaxdE1 = ",expand(subs(subs(eqalfaxdE1, alfax0, 0), gamax0, 1/betax0)))
 #println("      eqalfaxdE2 = ",expand(subs(subs(eqalfaxdE2, alfax0, 0), gamax0, 1/betax0)))
 #y
-println("      eqbetaydE0 = ",expand(subs(subs(eqbetaydE0, alfay0, 0), gamay0, 1/betay0)))
-println("      eqbetaydE1 = ",expand(subs(subs(eqbetaydE1, alfay0, 0), gamay0, 1/betay0)))
+println("      eqbetaydE0 = ",expand(subs(subs(subs(eqbetaydE0, alfay0, 0), gamay0, 1/betay0),betay0, 0.2)))
+#println("      eqbetaydE1 = ",expand(subs(subs(eqbetaydE1, alfay0, 0), gamay0, 1/betay0)))
 #println("      eqbetaydE2 = ",expand(subs(subs(eqbetaydE2, alfay0, 0), gamay0, 1/betay0)))
-#println("      eqalfaydE0 = ",expand(subs(subs(eqalfaydE0, alfay0, 0), gamay0, 1/betay0)))
+println("      eqalfaydE0 = ",expand(subs(subs(subs(eqalfaydE0, alfay0, 0), gamay0, 1/betay0),betay0, 0.2)))
 #println("      eqalfaydE1 = ",expand(subs(subs(eqalfaydE1, alfay0, 0), gamay0, 1/betay0)))
 #println("      eqalfaydE2 = ",expand(subs(subs(eqalfaydE2, alfay0, 0), gamay0, 1/betay0)))
 
