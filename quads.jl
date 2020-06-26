@@ -64,38 +64,41 @@ println("    Transport line created. Adios !")
 println("    Creating the transport matrix to second order in dE")
 #m = dotransport(mlist)
 
-# mlist2 = Any[]
-# push!(mlist2,mdstar)
-# push!(mlist2,mdstar)
-# push!(mlist2,mq(quad(kk[1],ll[1])))
+mlist2 = Any[]
+push!(mlist2,mq(quad(kk[1],ll[1])))
+push!(mlist2,mdstar)
+#push!(mlist2,mdstar)
 # #push!(mlist2,mq(quad(kk[2],ll[2])))
 # #push!(mlist2,mdstar)
 # println("length",length(mlist2))
 # println(mlist2)
 # exit()
-# R = dotransport(mlist2)
+R = dotransport(mlist2)
 
-R = dotransport(mpt104())
+#R = dotransport(mpt104())
 
 
-#=
-println("    matrix ",R)
-=#
+#println("    matrix ",R)
+for i in 1:4, j in 1:4
+    println("      R$i$j = ",R[i,j])
+end
+
+
 
 
 Rarraytaylor = Any[]
-for i in 1:4, j in 1:4
+for i in 1:1, j in 1:1
     Rij = dotaylor(expand(R[i,j]))
     push!(Rarraytaylor,Rij)
 end
 Rtaylor=transpose(reshape(Rarraytaylor,4,4))
 println("    Taylor expansion to second order of the matrix R")
-#=
+
 for i in 1:4, j in 1:4
     println("      R$i$j = ",expand(Rtaylor[i,j]))
 end
-exit()
-=#
+
+
 println("    Calculation of twiss parameters...")
 
 
