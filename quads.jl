@@ -90,10 +90,12 @@ Rarraytaylor = Any[]
 for i in 1:1, j in 1:1
     Rij = dotaylor(expand(R[i,j]))
     push!(Rarraytaylor,Rij)
+    println(Rarraytaylor,Rij)
 end
+exit()
+
 Rtaylor=transpose(reshape(Rarraytaylor,4,4))
 println("    Taylor expansion to second order of the matrix R")
-
 for i in 1:4, j in 1:4
     println("      R$i$j = ",expand(Rtaylor[i,j]))
 end

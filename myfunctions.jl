@@ -59,20 +59,12 @@ function dotransport(mlist)
 end
 ### second order taylor expansion
 function dotaylor(p)
-#    print("create")
-    fstart   = p#expand(p)
-    f = 0
-    for i in 0:1:2 ## zeroth to second order expansion
-        f = f + coeff(fstart,dE,Basic(i))*dE^i
-    end
-    df  = diff(f,  dE)
-    ddf = diff(df, dE)
-    ff = [symbols("f$i") for i in 0:1:2]
-    f0 = subs(f  , dE, 0)
-    f1 = subs(df , dE, 0)
-    f2 = subs(ddf, dE, 0)
-
-    ftaylor = expand(f0 + f1*dE + 0.5*f2*dE^2)
+    #    print("create")
+    println(p)
+    dp  = diff(p,  dE)
+    ddp = diff(dp, dE)
+    f = subs(p, dE, 0) + subs(dp, dE, 0)*dE + 0.5*subs(ddp, dE, 0)*dE^2
+    ftaylor = expand(f)
     return ftaylor
 end
 ### truncate expansion
