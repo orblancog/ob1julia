@@ -1,10 +1,21 @@
 
 ### Matrix declaration
+### deprecated thin quad
+#=
 function mq(q)
     # horizontally  focusing quadrupole transport matrix
     # four rows
     # quad chromaticity k->k(1+dE)
     R=[Basic[1 0 0 0]; Basic[-(1+dE)/(q.k*q.l) 1 0 0]; Basic[0 0 1 0];Basic[0 0 (1+dE)/(q.k*q.l) 1]]
+    return R
+end
+=#
+# thick quad
+function mq(q)
+    # horizontally  focusing quadrupole transport matrix
+    # four rows
+    # quad chromaticity k->k(1+dE)
+    R=[Basic[cos((1+dE)*q.k*q.l) sin((1+dE)*q.k*q.l)/(q.k*(1+dE)) 0 0]; Basic[-(1+dE)*q.k*sin((1+dE)*q.k*q.l) cos((1+dE)*q.k*q.l) 0 0]; Basic[0 0 cosh((1+dE)*q.k*q.l) sinh((1+dE)*q.k*q.l)/((1+dE)*q.k)]; Basic[0 0 (1+dE)*q.k*sinh((1+dE)*q.k*q.l) cosh((1+dE)*q.k*q.l)]]
     return R
 end
 function mqq(q)
