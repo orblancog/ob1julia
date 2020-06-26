@@ -20,7 +20,7 @@ dE=symbols(:dE);
 
 ### BEGIN of the script
 
-println("  OB1's APOCHROMAT DESIGN 0.7")
+println("  OB1's APOCHROMAT DESIGN 1.0")
 Nq = 10 # number of quadrupoles
 Nl = Nq - 1 # number of drifts
 #println("    Using ",Nq," quads and ",Nl," drifts")
@@ -172,17 +172,17 @@ eqalfaydE1=diff(alfaytrunc,dE)*dE
 eqalfaydE2=0.5*diff(diff(alfaytrunc,dE),dE)*dE^2
 =#
 eqbetaxdE0=subs(betaxtrunc, dE, 0)
-eqbetaxdE1=subs(diff(betaxtrunc,dE), dE, 0 )*dE
-eqbetaxdE2=0.5*subs(diff(diff(betaxtrunc,dE),dE), dE, 0)*dE^2
+eqbetaxdE1=subs(diff(betaxtrunc,dE), dE, 0 )
+eqbetaxdE2=0.5*subs(diff(diff(betaxtrunc,dE),dE), dE, 0)
 eqbetaydE0=subs(betaytrunc, dE, 0)
-eqbetaydE1=subs(diff(betaytrunc,dE), dE, 0)*dE
-eqbetaydE2=0.5*subs(diff(diff(betaytrunc,dE),dE), dE, 0)*dE^2
+eqbetaydE1=subs(diff(betaytrunc,dE), dE, 0)
+eqbetaydE2=0.5*subs(diff(diff(betaytrunc,dE),dE), dE, 0)
 eqalfaxdE0=subs(alfaxtrunc, dE, 0)
-eqalfaxdE1=subs(diff(alfaxtrunc,dE), dE, 0)*dE
-eqalfaxdE2=0.5*subs(diff(diff(alfaxtrunc,dE),dE), dE, 0)*dE^2
+eqalfaxdE1=subs(diff(alfaxtrunc,dE), dE, 0)
+eqalfaxdE2=0.5*subs(diff(diff(alfaxtrunc,dE),dE), dE, 0)
 eqalfaydE0=subs(alfaytrunc, dE, 0)
-eqalfaydE1=subs(diff(alfaytrunc,dE), dE, 0)*dE
-eqalfaydE2=0.5*subs(diff(diff(alfaytrunc,dE),dE), dE, 0)*dE^2
+eqalfaydE1=subs(diff(alfaytrunc,dE), dE, 0)
+eqalfaydE2=0.5*subs(diff(diff(alfaytrunc,dE),dE), dE, 0)
 #=
 println("      eqbetaxdE0 = ",eqbetaxdE0)
 println("      eqbetaxdE1 = ",eqbetaxdE1)
@@ -198,20 +198,35 @@ println("      eqalfaydE1 = ",eqalfaydE1)
 println("      eqalfaydE2 = ",eqalfaydE2)
 =#
 
-#x
-println("      eqbetaxdE0 = ",expand(subs(subs(subs(eqbetaxdE0, alfax0, 0), gamax0, 1/betax0),betax0, 0.2)))
-#println("      eqbetaxdE1 = ",expand(subs(subs(eqbetaxdE1, alfax0, 0), gamax0, 1/betax0)))
-#println("      eqbetaxdE2 = ",expand(subs(subs(eqbetaxdE2, alfax0, 0), gamax0, 1/betax0)))
-println("      eqalfaxdE0 = ",expand(subs(subs(subs(eqalfaxdE0, alfax0, 0), gamax0, 1/betax0),betax0, 0.2)))
-#println("      eqalfaxdE1 = ",expand(subs(subs(eqalfaxdE1, alfax0, 0), gamax0, 1/betax0)))
-#println("      eqalfaxdE2 = ",expand(subs(subs(eqalfaxdE2, alfax0, 0), gamax0, 1/betax0)))
-#y
-println("      eqbetaydE0 = ",expand(subs(subs(subs(eqbetaydE0, alfay0, 0), gamay0, 1/betay0),betay0, 0.2)))
-#println("      eqbetaydE1 = ",expand(subs(subs(eqbetaydE1, alfay0, 0), gamay0, 1/betay0)))
-#println("      eqbetaydE2 = ",expand(subs(subs(eqbetaydE2, alfay0, 0), gamay0, 1/betay0)))
-println("      eqalfaydE0 = ",expand(subs(subs(subs(eqalfaydE0, alfay0, 0), gamay0, 1/betay0),betay0, 0.2)))
-#println("      eqalfaydE1 = ",expand(subs(subs(eqalfaydE1, alfay0, 0), gamay0, 1/betay0)))
-#println("      eqalfaydE2 = ",expand(subs(subs(eqalfaydE2, alfay0, 0), gamay0, 1/betay0)))
 
+#x
+exprbetx0=expand(subs(subs(subs(eqbetaxdE0, alfax0, 0), gamax0, 1/betax0),betax0, 0.2))
+exprbetx1=expand(subs(subs(subs(eqbetaxdE1, alfax0, 0), gamax0, 1/betax0),betax0, 0.2))
+exprbetx2=expand(subs(subs(subs(eqbetaxdE2, alfax0, 0), gamax0, 1/betax0),betax0, 0.2))
+expralfx0=expand(subs(subs(subs(eqalfaxdE0, alfax0, 0), gamax0, 1/betax0),betax0, 0.2))
+expralfx1=expand(subs(subs(subs(eqalfaxdE1, alfax0, 0), gamax0, 1/betax0),betax0, 0.2))
+expraflx2=expand(subs(subs(subs(eqalfaxdE2, alfax0, 0), gamax0, 1/betax0),betax0, 0.2))
+println("      eqbetaxdE0 = ",exprbetx0)
+println("      eqbetaxdE1 = ",exprbetx1)
+println("      eqbetaxdE2 = ",exprbetx2)
+println("      eqalfaxdE0 = ",expralfx0)
+println("      eqalfaxdE1 = ",expralfx1)
+println("      eqalfaxdE2 = ",expraflx2)
+println("betax(dE) = 1*",exprbetx0," + ",exprbetx1,"*dE + 1*",exprbetx2,"*dE**2")
+println("")
+#y
+exprbety0=expand(subs(subs(subs(eqbetaydE0, alfay0, 0), gamay0, 1/betay0),betay0, 0.2))
+exprbety1=expand(subs(subs(subs(eqbetaydE1, alfay0, 0), gamay0, 1/betay0),betay0, 0.2))
+exprbety2=expand(subs(subs(subs(eqbetaydE2, alfay0, 0), gamay0, 1/betay0),betay0, 0.2))
+expralfy0=expand(subs(subs(subs(eqalfaydE0, alfay0, 0), gamay0, 1/betay0),betay0, 0.2))
+expralfy1=expand(subs(subs(subs(eqalfaydE1, alfay0, 0), gamay0, 1/betay0),betay0, 0.2))
+exprafly2=expand(subs(subs(subs(eqalfaydE2, alfay0, 0), gamay0, 1/betay0),betay0, 0.2))
+println("      eqbetaydE0 = ",exprbety0)
+println("      eqbetaydE1 = ",exprbety1)
+println("      eqbetaydE2 = ",exprbety2)
+println("      eqalfaydE0 = ",expralfy0)
+println("      eqalfaydE1 = ",expralfy1)
+println("      eqalfaydE2 = ",exprafly2)
+println("betay(dE) = ",exprbety0," + 1*",exprbety1,"*dE + 1*",exprbety2,"*dE**2")
 
 exit()
