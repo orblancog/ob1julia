@@ -84,13 +84,3 @@ function dotaylor(p)
 =#
     return ftaylor
 end
-### truncate expansion
-function dotruncate(p)
-    dp  = diff(p,  dE)
-    ddp = diff(dp, dE)
-    ptrunc = 0
-    f = subs(p, dE, 0) + subs(dp, dE, 0)*dE + subs(ddp, dE, 0)*dE^2
-    ftrunc = expand(f)
-    return ftrunc
-end
-

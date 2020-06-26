@@ -65,18 +65,18 @@ println("    Creating the transport matrix to second order in dE")
 #m = dotransport(mlist)
 
 mlist2 = Any[]
-push!(mlist2,mq(quad(kk[1],ll[1])))
+#push!(mlist2,mq(quad(kk[1],ll[1])))
 #push!(mlist2,mq(quad(-2.3,ll[1])))
-push!(mlist2,mdstar)
+#push!(mlist2,mdstar)
 #push!(mlist2,mdstar)
 # #push!(mlist2,mq(quad(kk[2],ll[2])))
 # #push!(mlist2,mdstar)
 # println("length",length(mlist2))
 # println(mlist2)
 # exit()
-R = dotransport(mlist2)
+#R = dotransport(mlist2)
 
-#R = dotransport(mpt104())
+R = dotransport(mpt104())
 
 #= Print R matrix
 #println("    matrix ",R)
@@ -138,12 +138,12 @@ gamay =  (Cpy^2)*betay0  -         2*Cpy*Spy*alfay0 + (Spy^2)*gamay0
 println("    ... twiss parameters defined")
 
 println("    Expanding twiss parameters to second order in dE")
-betaxtrunc = dotruncate(betax)
-betaytrunc = dotruncate(betay)
-alfaxtrunc = dotruncate(alfax)
-alfaytrunc = dotruncate(alfay)
-gamaxtrunc = dotruncate(gamax)
-gamaytrunc = dotruncate(gamay)
+betaxtrunc = dotaylor(betax)
+betaytrunc = dotaylor(betay)
+alfaxtrunc = dotaylor(alfax)
+alfaytrunc = dotaylor(alfay)
+gamaxtrunc = dotaylor(gamax)
+gamaytrunc = dotaylor(gamay)
 #=
 println("      betaxtrunc = ",betaxtrunc)
 println("      betaytrunc = ",betaytrunc)
