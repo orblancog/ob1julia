@@ -21,7 +21,7 @@ dE=symbols(:dE);
 
 ### BEGIN of the script
 
-println("  OB1's APOCHROMAT DESIGN 1.2")
+println("  OB1's APOCHROMAT DESIGN 1.3")
 Nq = 10 # number of quadrupoles
 Nl = Nq # number of drifts
 #println("    Using ",Nq," quads and ",Nl," drifts")
@@ -117,7 +117,7 @@ end
 
 
 println("    Taylor expansion to second order of the matrix R")
-Rtaylor = MatrixTaylor(R)
+Rtaylor = R
 
 for i in 1:size(R,1), j in 1:size(R,1)
         println("      Rtaylor$i$j = ",Rtaylor[i,j])
