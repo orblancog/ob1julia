@@ -64,7 +64,7 @@ push!(mlist4,md(listd[2]))
 push!(mlist4,mqf(listq[3]))
 push!(mlist4,md(listd[3]))
 push!(mlist4,mqd(listq[4]))
-# push!(mlist4,md(dstar))
+push!(mlist4,md(dstar))
 
 # #mdstar = md(dstar)
 # mdstar = md(lstar)
