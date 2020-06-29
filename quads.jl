@@ -21,7 +21,7 @@ dE=symbols(:dE);
 
 ### BEGIN of the script
 
-println("  OB1's APOCHROMAT DESIGN 1.4")
+println("  OB1's APOCHROMAT DESIGN 1.5")
 Nq = 10 # number of quadrupoles
 Nl = Nq # number of drifts
 #println("    Using ",Nq," quads and ",Nl," drifts")
@@ -38,16 +38,16 @@ println("    symbols created.")
 
 ## create elements
 println("    Creating elements...")
-# #dstar = drift(lstar)
-# #q1  = quad(kk[1],ll[1])
-# #qq1 = qquad(kl[1])#other type of quad, I hope faster
-# #d1  = drift(dd[1])
-# listq = Any[]
-# listd = Any[]
-# for i in 1:Nq
-#     push!(listq,quad(kk[i],ll[i])) #quads
-#     push!(listd,drift(dd[i]))
-# end
+dstar = drift(lstar)
+#q1  = quad(kk[1],ll[1])
+#qq1 = qquad(kl[1])#other type of quad, I hope faster
+#d1  = drift(dd[1])
+listq = Any[]
+listd = Any[]
+for i in 1:Nq
+    push!(listq,quad(kk[i],ll[i])) #quads
+    push!(listd,drift(dd[i]))
+end
 println("    elements created.")
 
 ### create matrices
@@ -56,14 +56,14 @@ mlist = Any[]
 
 
 mlist4 = Any[]
-#push!(mlist4,md(dstar))
-#push!(mlist4,mqf(listq[1]))
-# push!(mlist4,md(listd[1]))
-# push!(mlist4,mqd(listq[2]))
-# push!(mlist4,md(listd[2]))
-# push!(mlist4,mqf(listq[3]))
-# push!(mlist4,md(listd[3]))
-# push!(mlist4,mqd(listq[4]))
+push!(mlist4,md(dstar))
+push!(mlist4,mqf(listq[1]))
+push!(mlist4,md(listd[1]))
+push!(mlist4,mqd(listq[2]))
+push!(mlist4,md(listd[2]))
+push!(mlist4,mqf(listq[3]))
+push!(mlist4,md(listd[3]))
+push!(mlist4,mqd(listq[4]))
 # push!(mlist4,md(dstar))
 
 # #mdstar = md(dstar)
@@ -98,8 +98,8 @@ mlist4 = Any[]
 # exit()
 
 #R = dotransport(mlist2)
-R = dotransport(mpt104())
-#R = dotransport(mlist4)
+#R = dotransport(mpt104())
+R = dotransport(mlist4)
 #copympt = mpt104v2D()
 #copympt[end] = [1 0; 0 1]
 #println(copympt[end])
