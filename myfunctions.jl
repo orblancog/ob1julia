@@ -98,9 +98,9 @@ end
 # drift 2D
 function md(d)
     # four rows
-#    R=[Basic[1 d.l 0 0];Basic[0 1 0 0];Basic[0 0 1 d.l];Basic[0 0 0 1]]
+    R=[Basic[1 d.l 0 0];Basic[0 1 0 0];Basic[0 0 1 d.l];Basic[0 0 0 1]]
     println("      drift")
-    R=[Basic[1 d];Basic[0 1]]
+#    R=[Basic[1 d];Basic[0 1]]
     return R
 end
 #=

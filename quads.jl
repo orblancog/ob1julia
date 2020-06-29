@@ -148,31 +148,28 @@ Cx  = Rtaylor[1,1]
 Sx  = Rtaylor[1,2]
 Cpx = Rtaylor[2,1]
 Spx = Rtaylor[2,2]
-#=
 Cy  = Rtaylor[3,3]
 Sy  = Rtaylor[3,4]
 Cpy = Rtaylor[4,3]
 Spy = Rtaylor[4,4]
-=#
+
 betax =   (Cx^2)*betax0  -           2*Cx*Sx*alfax0 +  (Sx^2)*gamax0
 alfax =  -Cx*Cpx*betax0  + (Cx*Spx + Sx*Cpx)*alfax0 -  Sx*Spx*gamax0
 gamax =  (Cpx^2)*betax0  -         2*Cpx*Spx*alfax0 + (Spx^2)*gamax0
-#=
 betay =   (Cy^2)*betay0  -           2*Cy*Sy*alfay0 +  (Sy^2)*gamay0
 alfay =  -Cy*Cpy*betay0  + (Cy*Spy + Sy*Cpy)*alfay0 -  Sy*Spy*gamay0
 gamay =  (Cpy^2)*betay0  -         2*Cpy*Spy*alfay0 + (Spy^2)*gamay0
-=#
+
 println("    ... twiss parameters defined")
 
 println("    Expanding twiss parameters to second order in dE")
 betaxtrunc = dotaylor(betax)
 alfaxtrunc = dotaylor(alfax)
 gamaxtrunc = dotaylor(gamax)
-#=
 betaytrunc = dotaylor(betay)
 alfaytrunc = dotaylor(alfay)
 gamaytrunc = dotaylor(gamay)
-=#
+
 
 #=
 println("      betaxtrunc = ",betaxtrunc)
@@ -199,20 +196,22 @@ eqalfaydE0=alfaytrunc
 eqalfaydE1=diff(alfaytrunc,dE)*dE
 eqalfaydE2=0.5*diff(diff(alfaytrunc,dE),dE)*dE^2
 =#
+
 eqbetaxdE0=subs(betaxtrunc, dE, 0)
 eqbetaxdE1=subs(diff(betaxtrunc,dE), dE, 0 )
 eqbetaxdE2=0.5*subs(diff(diff(betaxtrunc,dE),dE), dE, 0)
 eqalfaxdE0=subs(alfaxtrunc, dE, 0)
 eqalfaxdE1=subs(diff(alfaxtrunc,dE), dE, 0)
 eqalfaxdE2=0.5*subs(diff(diff(alfaxtrunc,dE),dE), dE, 0)
-#=
+
+
 eqbetaydE0=subs(betaytrunc, dE, 0)
 eqbetaydE1=subs(diff(betaytrunc,dE), dE, 0)
 eqbetaydE2=0.5*subs(diff(diff(betaytrunc,dE),dE), dE, 0)
 eqalfaydE0=subs(alfaytrunc, dE, 0)
 eqalfaydE1=subs(diff(alfaytrunc,dE), dE, 0)
 eqalfaydE2=0.5*subs(diff(diff(alfaytrunc,dE),dE), dE, 0)
-=#
+
 #=
 println("      eqbetaxdE0 = ",eqbetaxdE0)
 println("      eqbetaxdE1 = ",eqbetaxdE1)
@@ -243,11 +242,10 @@ expralfx2=expand(subs(subs(subs(eqalfaxdE2, alfax0, 0), gamax0, 1/betax0),betax0
 #println("      eqalfaxdE1 = ",expralfx1)
 #println("      eqalfaxdE2 = ",expralfx2)
 println("betax(dE) = ",exprbetx0," + 1*",exprbetx1,"*dE + 1*",exprbetx2,"*dE**2")
-println("")
 println("alfax(dE) = ",expralfx0," + 1*",expralfx1,"*dE + 1*",expralfx2,"*dE**2")
 println("")
 
-#=
+
 #y
 exprbety0=expand(subs(subs(subs(eqbetaydE0, alfay0, 0), gamay0, 1/betay0),betay0, 0.2))
 exprbety1=expand(subs(subs(subs(eqbetaydE1, alfay0, 0), gamay0, 1/betay0),betay0, 0.2))
@@ -255,12 +253,14 @@ exprbety2=expand(subs(subs(subs(eqbetaydE2, alfay0, 0), gamay0, 1/betay0),betay0
 expralfy0=expand(subs(subs(subs(eqalfaydE0, alfay0, 0), gamay0, 1/betay0),betay0, 0.2))
 expralfy1=expand(subs(subs(subs(eqalfaydE1, alfay0, 0), gamay0, 1/betay0),betay0, 0.2))
 expralfy2=expand(subs(subs(subs(eqalfaydE2, alfay0, 0), gamay0, 1/betay0),betay0, 0.2))
+#=
 println("      eqbetaydE0 = ",exprbety0)
 println("      eqbetaydE1 = ",exprbety1)
 println("      eqbetaydE2 = ",exprbety2)
 println("      eqalfaydE0 = ",expralfy0)
 println("      eqalfaydE1 = ",expralfy1)
 println("      eqalfaydE2 = ",expralfy2)
+=#
 println("betay(dE) = ",exprbety0," + 1*",exprbety1,"*dE + 1*",exprbety2,"*dE**2")
 println("alfay(dE) = ",expralfy0," + 1*",expralfy1,"*dE + 1*",expralfy2,"*dE**2")
 exit()
