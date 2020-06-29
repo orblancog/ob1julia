@@ -21,7 +21,7 @@ dE=symbols(:dE);
 
 ### BEGIN of the script
 
-println("  OB1's APOCHROMAT DESIGN 1.3")
+println("  OB1's APOCHROMAT DESIGN 1.4")
 Nq = 10 # number of quadrupoles
 Nl = Nq # number of drifts
 #println("    Using ",Nq," quads and ",Nl," drifts")
@@ -54,20 +54,17 @@ println("    elements created.")
 println("    Creating matrix representation of the transport line...")
 mlist = Any[]
 
-#=
 
 mlist4 = Any[]
-push!(mlist4,md(dstar))
-push!(mlist4,mqf(listq[1]))
-push!(mlist4,md(listd[1]))
-push!(mlist4,mqf(listq[2]))
-push!(mlist4,md(listd[2]))
-push!(mlist4,mqf(listq[3]))
-push!(mlist4,md(listd[3]))
-push!(mlist4,mqf(listq[4]))
-push!(mlist4,md(dstar))
-
-=#
+#push!(mlist4,md(dstar))
+#push!(mlist4,mqf(listq[1]))
+# push!(mlist4,md(listd[1]))
+# push!(mlist4,mqd(listq[2]))
+# push!(mlist4,md(listd[2]))
+# push!(mlist4,mqf(listq[3]))
+# push!(mlist4,md(listd[3]))
+# push!(mlist4,mqd(listq[4]))
+# push!(mlist4,md(dstar))
 
 # #mdstar = md(dstar)
 # mdstar = md(lstar)
@@ -87,7 +84,7 @@ push!(mlist4,md(dstar))
  println("    Creating the transport matrix to second order in dE")
 #m = dotransport(mlist)
 
-mlist2 = Any[]
+#mlist2 = Any[]
 #push!(mlist2,mq(quad(kk[1],ll[1])))
 #push!(mlist2,md(1))
 #push!(mlist2,mq(quad(-7,1)))
@@ -118,11 +115,11 @@ end
 
 println("    Taylor expansion to second order of the matrix R")
 Rtaylor = R
-
+#=
 for i in 1:size(R,1), j in 1:size(R,1)
         println("      Rtaylor$i$j = ",Rtaylor[i,j])
 end
-
+=#
 
 println("    Calculation of twiss parameters...")
 # twiss symbols as a function of dE
@@ -241,9 +238,12 @@ expralfx2=expand(subs(subs(subs(eqalfaxdE2, alfax0, 0), gamax0, 1/betax0),betax0
 #println("      eqalfaxdE0 = ",expralfx0)
 #println("      eqalfaxdE1 = ",expralfx1)
 #println("      eqalfaxdE2 = ",expralfx2)
-println("betax(dE) = ",exprbetx0," + 1*",exprbetx1,"*dE + 1*",exprbetx2,"*dE**2")
-println("alfax(dE) = ",expralfx0," + 1*",expralfx1,"*dE + 1*",expralfx2,"*dE**2")
-println("")
+apolog=open("apo.log","w")
+#write(apolog,"betax(dE) = ",exprbetx0," + 1*",exprbetx1,"*dE + 1*",exprbetx2,"*dE**2")
+#write(apolog,"alfax(dE) = ",expralfx0," + 1*",expralfx1,"*dE + 1*",expralfx2,"*dE**2")
+write(apolog,"betax(dE) = $exprbetx0 + 1*$exprbetx1*dE + 1*$exprbetx2*dE**2\n")
+write(apolog,"alfax(dE) = $expralfx0 + 1*$expralfx1*dE + 1*$expralfx2*dE**2\n")
+write(apolog,"")
 
 
 #y
@@ -261,7 +261,8 @@ println("      eqalfaydE0 = ",expralfy0)
 println("      eqalfaydE1 = ",expralfy1)
 println("      eqalfaydE2 = ",expralfy2)
 =#
-println("betay(dE) = ",exprbety0," + 1*",exprbety1,"*dE + 1*",exprbety2,"*dE**2")
-println("alfay(dE) = ",expralfy0," + 1*",expralfy1,"*dE + 1*",expralfy2,"*dE**2")
+write(apolog,"betay(dE) = $exprbety0 + 1*$exprbety1*dE + 1*$exprbety2*dE**2\n")
+write(apolog,"alfay(dE) = $expralfy0 + 1*$expralfy1*dE + 1*$expralfy2*dE**2\n")
+close(apolog)
 exit()
-=#
+
