@@ -116,7 +116,7 @@ function mult(A,B)
         pp = 0
         typeof(pp)
         for k in 1:ndim
-            pp = pp + A[i,k]*B[k,j]### order changed because push is adding column vectors
+            pp = pp + dotaylor(A[i,k]*B[k,j])### order changed because push is adding column vectors
 #            println("i",i," j",j," k",k," pp",pp," A",A[i,k]," B",B[k,j])
         end
         push!(p,pp) ### maybe push is adding column vectors

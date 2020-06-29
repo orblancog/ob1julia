@@ -103,7 +103,11 @@ mlist2 = Any[]
 #R = dotransport(mlist2)
 #R = dotransport(mpt104())
 #R = dotransport(mlist4)
-R = dotransport(mpt104v2D())
+copympt = mpt104v2D()
+#copympt[end] = [1 0; 0 1]
+#println(copympt[end])
+
+R = dotransport(copympt)
 
 #= Print R matrix
 #println("    matrix ",R)
