@@ -10,6 +10,56 @@ function mq(q)
     return R
 end
 =#
+# focusing quad
+function mqf(q)
+    # horizontally  focusing quadrupole transport matrix
+    # four rows
+    # quad chromaticity k->k/(1+dE)
+    Rf11 =   cos(q.l*sqrt(abs(q.k)/(1+dE)))
+    Rf12 =  sin(q.l*sqrt(abs(q.k)/(1+dE))) / (sqrt(abs(q.k)/(1+dE)))
+    Rf21 = -(sqrt(abs(q.k)/(1+dE)))*sin(q.l*sqrt(abs(q.k)/(1+dE)))
+    Rf22 =  Rf11
+    println("      quad foc")
+    R=[Basic[Rf11 Rf12]; Basic[Rf21 Rf22]]
+    return R
+end
+# defocusing quad
+function mqd(q)
+    # horizontally  focusing quadrupole transport matrix
+    # four rows
+    # quad chromaticity k->k/(1+dE)
+    Rd11 =  cosh(q.l*sqrt(abs(q.k)/(1+dE)))
+    Rd12 =  sinh(q.l*sqrt(abs(q.k)/(1+dE)))/(sqrt(abs(q.k)/(1+dE)))
+    Rd21 =  (sqrt(abs(q.k)/(1+dE)))*sinh(q.l*sqrt(abs(q.k)/(1+dE)))
+    Rd22 =  Rd11
+    println("      quad defoc")
+    R=[Basic[Rd11 Rd12]; Basic[Rd21 Rd22]]
+    return R
+end
+
+# thick quad 2D
+function mq(q)
+    # horizontally  focusing quadrupole transport matrix
+    # four rows
+    # quad chromaticity k->k/(1+dE)
+    Rf11 =   cos(q.l*sqrt(abs(q.k)/(1+dE)))
+    Rf12 =  sin(q.l*sqrt(abs(q.k)/(1+dE))) / (sqrt(abs(q.k)/(1+dE)))
+    Rf21 = -(sqrt(abs(q.k)/(1+dE)))*sin(q.l*sqrt(abs(q.k)/(1+dE)))
+    Rf22 =  Rf11
+    Rd11 =  cosh(q.l*sqrt(abs(q.k)/(1+dE)))
+    Rd12 =  sinh(q.l*sqrt(abs(q.k)/(1+dE)))/(sqrt(abs(q.k)/(1+dE)))
+    Rd21 =  (sqrt(abs(q.k)/(1+dE)))*sinh(q.l*sqrt(abs(q.k)/(1+dE)))
+    Rd22 =  Rd11
+    if (q.k <=0 )
+        println("      quad defoc")
+        R=[Basic[Rd11 Rd12]; Basic[Rd21 Rd22]]
+    else
+        println("      quad foc")
+        R=[Basic[Rf11 Rf12]; Basic[Rf21 Rf22]]
+    end
+    return R
+end
+#=
 # thick quad
 function mq(q)
     # horizontally  focusing quadrupole transport matrix
@@ -32,6 +82,7 @@ function mq(q)
     end
     return R
 end
+=#
 function mqq(q)
     # horizontally  focusing quadrupole transport matrix
     # four rows
@@ -39,6 +90,16 @@ function mqq(q)
     R=[Basic[1 0 0 0]; Basic[-(1+dE)/(q.kl) 1 0 0]; Basic[0 0 1 0];Basic[0 0 (1+dE)/(q.kl) 1]]
     return R
 end
+# drift 2D
+function md(d)
+    # four rows
+#    R=[Basic[1 d.l 0 0];Basic[0 1 0 0];Basic[0 0 1 d.l];Basic[0 0 0 1]]
+    println("      drift")
+    R=[Basic[1 d];Basic[0 1]]
+    return R
+end
+#=
+#drfit 4D
 function md(d)
     # four rows
 #    R=[Basic[1 d.l 0 0];Basic[0 1 0 0];Basic[0 0 1 d.l];Basic[0 0 0 1]]
@@ -46,21 +107,22 @@ function md(d)
     R=[Basic[1 d 0 0];Basic[0 1 0 0];Basic[0 0 1 d];Basic[0 0 0 1]]
     return R
 end
-
+=#
 ### Matrix multiplication
 function mult(A,B)
     p = Any[]
-    for i in 1:4, j in 1:4
+    ndim = 2#2D
+    for i in 1:ndim, j in 1:ndim
         pp = 0
         typeof(pp)
-        for k in 1:4
+        for k in 1:ndim
             pp = pp + A[i,k]*B[k,j]### order changed because push is adding column vectors
 #            println("i",i," j",j," k",k," pp",pp," A",A[i,k]," B",B[k,j])
         end
         push!(p,pp) ### maybe push is adding column vectors
 #        println(" stato p",p)
     end
-    return transpose(reshape(p,4,4))
+    return transpose(reshape(p,ndim,ndim))
 end
 function dotransport(mlist)
     global m1 = mlist[1]
@@ -84,4 +146,15 @@ function dotaylor(p)
     println("o2 : ",subs(ddp, dE, 0))
 =#
     return ftaylor
+end
+# matrix taylor expansion
+function MatrixTaylor(R)
+    Rarraytaylor = Any[]
+    ndim = 2
+    for i in 1:ndim, j in 1:ndim
+        Rij = dotaylor(expand(R[i,j]))
+        push!(Rarraytaylor,Rij)
+    end
+    Rtaylor=transpose(reshape(Rarraytaylor,ndim,ndim))
+    return Rtaylor
 end
