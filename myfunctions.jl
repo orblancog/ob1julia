@@ -10,6 +10,7 @@ function mq(q)
     return R
 end
 =#
+#=
 # focusing quad
 function mqf(q)
     # horizontally  focusing quadrupole transport matrix
@@ -20,7 +21,8 @@ function mqf(q)
     Rf21 = -(sqrt(abs(q.k)/(1+dE)))*sin(q.l*sqrt(abs(q.k)/(1+dE)))
     Rf22 =  Rf11
     println("      quad foc")
-    R=[Basic[Rf11 Rf12]; Basic[Rf21 Rf22]]
+#    R=[Basic[Rf11 Rf12]; Basic[Rf21 Rf22]]
+    R=[Basic[Rf11 Rf12 0 0]; Basic[Rf21 Rf22 0 0]; Basic[0 0 Rd11 Rd12]; Basic[0 0 Rd21 Rd22]]
     return R
 end
 # defocusing quad
@@ -33,9 +35,11 @@ function mqd(q)
     Rd21 =  (sqrt(abs(q.k)/(1+dE)))*sinh(q.l*sqrt(abs(q.k)/(1+dE)))
     Rd22 =  Rd11
     println("      quad defoc")
-    R=[Basic[Rd11 Rd12]; Basic[Rd21 Rd22]]
+    #R=[Basic[Rd11 Rd12]; Basic[Rd21 Rd22]]
+    R=[Basic[Rf11 Rf12 0 0]; Basic[Rf21 Rf22 0 0]; Basic[0 0 Rd11 Rd12]; Basic[0 0 Rd21 Rd22]]
     return R
 end
+
 
 # thick quad 2D
 function mq(q)
@@ -59,7 +63,8 @@ function mq(q)
     end
     return R
 end
-#=
+=#
+
 # thick quad
 function mq(q)
     # horizontally  focusing quadrupole transport matrix
@@ -82,7 +87,7 @@ function mq(q)
     end
     return R
 end
-=#
+
 function mqq(q)
     # horizontally  focusing quadrupole transport matrix
     # four rows
@@ -111,7 +116,7 @@ end
 ### Matrix multiplication
 function mult(A,B)
     p = Any[]
-    ndim = 2#2D
+    ndim = size(A,1)#2D
     for i in 1:ndim, j in 1:ndim
         pp = 0
         typeof(pp)
@@ -150,7 +155,7 @@ end
 # matrix taylor expansion
 function MatrixTaylor(R)
     Rarraytaylor = Any[]
-    ndim = 2
+    ndim = size(R,1)
     for i in 1:ndim, j in 1:ndim
         Rij = dotaylor(expand(R[i,j]))
         push!(Rarraytaylor,Rij)

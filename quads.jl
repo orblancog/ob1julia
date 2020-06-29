@@ -101,13 +101,12 @@ mlist2 = Any[]
 # exit()
 
 #R = dotransport(mlist2)
-#R = dotransport(mpt104())
+R = dotransport(mpt104())
 #R = dotransport(mlist4)
-copympt = mpt104v2D()
+#copympt = mpt104v2D()
 #copympt[end] = [1 0; 0 1]
 #println(copympt[end])
-
-R = dotransport(copympt)
+#R = dotransport(copympt)
 
 #= Print R matrix
 #println("    matrix ",R)
@@ -120,7 +119,7 @@ end
 println("    Taylor expansion to second order of the matrix R")
 Rtaylor = MatrixTaylor(R)
 
-for i in 1:2, j in 1:2
+for i in 1:size(R,1), j in 1:size(R,1)
         println("      Rtaylor$i$j = ",Rtaylor[i,j])
 end
 
