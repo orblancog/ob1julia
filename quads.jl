@@ -57,8 +57,8 @@ mlist = Any[]
 
 
 mlist4 = Any[]
-push!(mlist4,md(dstar))
-push!(mlist4,mqf(listq[1]))
+#push!(mlist4,md(dstar))
+#push!(mlist4,mqf(listq[1]))
 # push!(mlist4,md(listd[1]))
 # push!(mlist4,mqd(listq[2]))
 # push!(mlist4,md(listd[2]))
@@ -99,8 +99,8 @@ push!(mlist4,mqf(listq[1]))
 # exit()
 
 #R = dotransport(mlist2)
-#R = dotransport(mpt104())
-R = dotransport(mlist4)
+R = dotransport(mpt104())
+#R = dotransport(mlist4)
 #copympt = mpt104v2D()
 #copympt[end] = [1 0; 0 1]
 #println(copympt[end])
