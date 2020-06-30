@@ -17,8 +17,6 @@ include("myfunctions.jl")
 
 ### energy parameter
 dE=symbols(:dE)
-### brhofactor, to change the nominal energy
-brhofactor=symbols(:brhofactor)
 
 ### BEGIN of the script
 
