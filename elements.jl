@@ -8,14 +8,3 @@ end
 struct drift{T}
     l::T
 end
-#=
-struct qquad
-    kl :: Basic
-end
-struct qquad
-    kl :: Float64
-end
-struct drift
-    l :: Float64
-end
-=#
