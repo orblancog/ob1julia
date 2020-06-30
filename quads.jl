@@ -16,15 +16,16 @@ include("elements.jl")
 include("myfunctions.jl")
 
 ### energy parameter
-dE=symbols(:dE);
-
+dE=symbols(:dE)
+### brhofactor, to change the nominal energy
+brhofactor=symbols(:brhofactor)
 
 ### BEGIN of the script
 
-println("  OB1's APOCHROMAT DESIGN 1.5")
+println("  OB1's APOCHROMAT DESIGN 1.6")
 Nq = 10 # number of quadrupoles
 Nl = Nq # number of drifts
-#println("    Using ",Nq," quads and ",Nl," drifts")
+#println("    Using ",Nq," quads and "Nl," drifts")
 
 ### Create variables
 println("    Creating symbols...")
@@ -58,13 +59,13 @@ mlist = Any[]
 mlist4 = Any[]
 push!(mlist4,md(dstar))
 push!(mlist4,mqf(listq[1]))
-push!(mlist4,md(listd[1]))
-push!(mlist4,mqd(listq[2]))
-push!(mlist4,md(listd[2]))
-push!(mlist4,mqf(listq[3]))
-push!(mlist4,md(listd[3]))
-push!(mlist4,mqd(listq[4]))
-push!(mlist4,md(dstar))
+# push!(mlist4,md(listd[1]))
+# push!(mlist4,mqd(listq[2]))
+# push!(mlist4,md(listd[2]))
+# push!(mlist4,mqf(listq[3]))
+# push!(mlist4,md(listd[3]))
+# push!(mlist4,mqd(listq[4]))
+# push!(mlist4,md(dstar))
 
 # #mdstar = md(dstar)
 # mdstar = md(lstar)
