@@ -4,6 +4,7 @@ function mpt104(brhofactor = 1)
     mpt104 = Any[]
     push!(mpt104,md(drift{Float64}( 0.1)))
     push!(mpt104,mq(quad{Float64}(  7/brhofactor, 0.371)))
+    return mpt104
     push!(mpt104,md(drift{Float64}( 0.101)))
     push!(mpt104,mq(quad{Float64}( -7/brhofactor, 0.426)))
     push!(mpt104,md(drift{Float64}( 0.101)))

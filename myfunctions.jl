@@ -64,26 +64,36 @@ function mq(q)
     return R
 end
 =#
-
 # thick quad
-function mq(q)
-    # horizontally  focusing quadrupole transport matrix
-    # four rows
-    # quad chromaticity k->k/(1+dE)
-    Rf11 =   cos(q.l*sqrt(abs(q.k)/(1+dE)))
+function Rqf(q)
+    Rf11 =  cos(q.l*sqrt(abs(q.k)/(1+dE)))
     Rf12 =  sin(q.l*sqrt(abs(q.k)/(1+dE))) / (sqrt(abs(q.k)/(1+dE)))
     Rf21 = -(sqrt(abs(q.k)/(1+dE)))*sin(q.l*sqrt(abs(q.k)/(1+dE)))
     Rf22 =  Rf11
+    RF   =  [Basic[Rf11 Rf12]; Basic[Rf21 Rf22]]
+    return  RF
+end
+function Rqd(q)
     Rd11 =  cosh(q.l*sqrt(abs(q.k)/(1+dE)))
     Rd12 =  sinh(q.l*sqrt(abs(q.k)/(1+dE)))/(sqrt(abs(q.k)/(1+dE)))
     Rd21 =  (sqrt(abs(q.k)/(1+dE)))*sinh(q.l*sqrt(abs(q.k)/(1+dE)))
     Rd22 =  Rd11
-    if (q.k <=0 )
+    RD   =  [Basic[Rd11 Rd12]; Basic[Rd21 Rd22]]
+    return  RD
+end
+function mq(q)
+    # horizontally  focusing quadrupole transport matrix
+    # four rows
+    # quad chromaticity k->k/(1+dE)
+    if (q.k == 0 )
+        println("      quad k=0")
+        R=[Basic[1 q.l 0 0];Basic[0 1 0 0];Basic[0 0 1 q.l];Basic[0 0 0 1]]
+    elseif (q.k < 0)
         println("      quad defoc")
-        R=[Basic[Rd11 Rd12 0 0]; Basic[Rd21 Rd22 0 0]; Basic[0 0 Rf11 Rf12]; Basic[0 0 Rf21 Rf22]]
+        R =  [Rqd(q) zeros(Float64,2,2); zeros(Float64,2,2) Rqf(q)]
     else
         println("      quad foc")
-        R=[Basic[Rf11 Rf12 0 0]; Basic[Rf21 Rf22 0 0]; Basic[0 0 Rd11 Rd12]; Basic[0 0 Rd21 Rd22]]
+        R =  [Rqf(q) zeros(Float64,2,2); zeros(Float64,2,2) Rqd(q)]
     end
     return R
 end
@@ -150,7 +160,7 @@ end
 ### Matrix multiplication
 function mult(A,B)
     p = Any[]
-    ndim = size(A,1)#2D
+    ndim = size(A,1)
     for i in 1:ndim, j in 1:ndim
         pp = 0
         typeof(pp)
@@ -163,15 +173,21 @@ function mult(A,B)
     end
     return transpose(reshape(p,ndim,ndim))
 end
-function dotransport(mlist)
-    global m1 = mlist[1]
+function dotransport(mlist,verbose = 0)
+    global R = mlist[1]
     for i in 1:length(mlist)-1
         if length(mlist) > 1
             #            println("enter")
-            global m1 = mult(m1,mlist[i+1]) ### mult modifies mt
+            global R = mult(R,mlist[i+1]) ### mult modifies mt
         end
     end
-    return m1
+    # Print R matrix
+    if (verbose == 1 )
+        for i in 1:size(R,1), j in 1:size(R,1)
+            println("      R$i$j = ",R[i,j])
+        end
+    end
+    return R
 end
 ### second order taylor expansion
 function dotaylor(p)

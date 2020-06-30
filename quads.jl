@@ -22,7 +22,7 @@ brhofactor=symbols(:brhofactor)
 
 ### BEGIN of the script
 
-println("  OB1's APOCHROMAT DESIGN 1.6")
+println("  OB1's APOCHROMAT DESIGN 1.7")
 Nq = 10 # number of quadrupoles
 Nl = Nq # number of drifts
 #println("    Using ",Nq," quads and "Nl," drifts")
@@ -99,20 +99,12 @@ mlist4 = Any[]
 # exit()
 
 #R = dotransport(mlist2)
-R = dotransport(mpt104(2))
+R = dotransport(mpt104())
 #R = dotransport(mlist4)
 #copympt = mpt104v2D()
 #copympt[end] = [1 0; 0 1]
 #println(copympt[end])
 #R = dotransport(copympt)
-
-#= Print R matrix
-#println("    matrix ",R)
-for i in 1:4, j in 1:4
-    println("      R$i$j = ",R[i,j])
-end
-=#
-
 
 println("    Taylor expansion to second order of the matrix R")
 Rtaylor = R
