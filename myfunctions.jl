@@ -1,4 +1,4 @@
-# thick quad
+# thick quad matrices
 function Rqf(q)
     Rf11 =  cos(q.l*sqrt(abs(q.k)/(1+dE)))
     Rf12 =  sin(q.l*sqrt(abs(q.k)/(1+dE))) / (sqrt(abs(q.k)/(1+dE)))
@@ -15,82 +15,54 @@ function Rqd(q)
     RD   =  [Basic[Rd11 Rd12]; Basic[Rd21 Rd22]]
     return  RD
 end
-function mq(q)
+
+# quad numeric
+function mq(q, verbose = 0)
     # horizontally  focusing quadrupole transport matrix
     # four rows
     # quad chromaticity k->k/(1+dE)
     if (q.k == 0 )
-        println("      quad k=0")
+        if (verbose == 1 ) println("      quad k=0") end
         R=[Basic[1 q.l 0 0];Basic[0 1 0 0];Basic[0 0 1 q.l];Basic[0 0 0 1]]
     elseif (q.k < 0)
-        println("      quad defoc")
+        if (verbose == 1 ) println("      quad defoc") end
         R =  [Rqd(q) zeros(Float64,2,2); zeros(Float64,2,2) Rqf(q)]
     else
-        println("      quad foc")
+        if (verbose == 1 )  println("      quad foc") end 
         R =  [Rqf(q) zeros(Float64,2,2); zeros(Float64,2,2) Rqd(q)]
     end
     return R
 end
-# thick quad
+
+# thick quad, symbolic focusing
 function mqf(q)
     # horizontally  focusing quadrupole transport matrix
     # four rows
     # quad chromaticity k->k/(1+dE)
-    Rf11 =   cos(q.l*sqrt(abs(q.k)/(1+dE)))
-    Rf12 =  sin(q.l*sqrt(abs(q.k)/(1+dE))) / (sqrt(abs(q.k)/(1+dE)))
-    Rf21 = -(sqrt(abs(q.k)/(1+dE)))*sin(q.l*sqrt(abs(q.k)/(1+dE)))
-    Rf22 =  Rf11
-    Rd11 =  cosh(q.l*sqrt(abs(q.k)/(1+dE)))
-    Rd12 =  sinh(q.l*sqrt(abs(q.k)/(1+dE)))/(sqrt(abs(q.k)/(1+dE)))
-    Rd21 =  (sqrt(abs(q.k)/(1+dE)))*sinh(q.l*sqrt(abs(q.k)/(1+dE)))
-    Rd22 =  Rd11
     println("      quad foc")
-    R=[Basic[Rf11 Rf12 0 0]; Basic[Rf21 Rf22 0 0]; Basic[0 0 Rd11 Rd12]; Basic[0 0 Rd21 Rd22]]
+    R =  [Rqf(q) zeros(Float64,2,2); zeros(Float64,2,2) Rqd(q)]
     return R
 end
-# thick quad
+
+# thick quad, symbolic defocusing
 function mqd(q)
     # horizontally  focusing quadrupole transport matrix
     # four rows
     # quad chromaticity k->k/(1+dE)
-    Rf11 =   cos(q.l*sqrt(abs(q.k)/(1+dE)))
-    Rf12 =  sin(q.l*sqrt(abs(q.k)/(1+dE))) / (sqrt(abs(q.k)/(1+dE)))
-    Rf21 = -(sqrt(abs(q.k)/(1+dE)))*sin(q.l*sqrt(abs(q.k)/(1+dE)))
-    Rf22 =  Rf11
-    Rd11 =  cosh(q.l*sqrt(abs(q.k)/(1+dE)))
-    Rd12 =  sinh(q.l*sqrt(abs(q.k)/(1+dE)))/(sqrt(abs(q.k)/(1+dE)))
-    Rd21 =  (sqrt(abs(q.k)/(1+dE)))*sinh(q.l*sqrt(abs(q.k)/(1+dE)))
-    Rd22 =  Rd11
     println("      quad defoc")
-    R=[Basic[Rd11 Rd12 0 0]; Basic[Rd21 Rd22 0 0]; Basic[0 0 Rf11 Rf12]; Basic[0 0 Rf21 Rf22]]
+    R =  [Rqd(q) zeros(Float64,2,2); zeros(Float64,2,2) Rqf(q)]
     return R
 end
 
-function mqq(q)
-    # horizontally  focusing quadrupole transport matrix
+# drift
+function md(d, verbose = 0)
     # four rows
-    # quad chromaticity k->k(1+dE)
-    R=[Basic[1 0 0 0]; Basic[-(1+dE)/(q.kl) 1 0 0]; Basic[0 0 1 0];Basic[0 0 (1+dE)/(q.kl) 1]]
-    return R
-end
-# drift 2D
-function md(d)
-    # four rows
+    if (verbose == 1 ) println("      drift") end
     R=[Basic[1 d.l 0 0];Basic[0 1 0 0];Basic[0 0 1 d.l];Basic[0 0 0 1]]
-    println("      drift")
 #    R=[Basic[1 d];Basic[0 1]]
     return R
 end
-#=
-#drfit 4D
-function md(d)
-    # four rows
-#    R=[Basic[1 d.l 0 0];Basic[0 1 0 0];Basic[0 0 1 d.l];Basic[0 0 0 1]]
-    println("      drift")
-    R=[Basic[1 d 0 0];Basic[0 1 0 0];Basic[0 0 1 d];Basic[0 0 0 1]]
-    return R
-end
-=#
+
 ### Matrix multiplication
 function mult(A,B)
     p = Any[]

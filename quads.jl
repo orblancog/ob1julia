@@ -22,7 +22,7 @@ brhofactor=symbols(:brhofactor)
 
 ### BEGIN of the script
 
-println("  OB1's APOCHROMAT DESIGN 1.8")
+println("  OB1's APOCHROMAT DESIGN 1.9")
 Nq = 10 # number of quadrupoles
 Nl = Nq # number of drifts
 #println("    Using ",Nq," quads and "Nl," drifts")
