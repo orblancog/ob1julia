@@ -35,7 +35,8 @@ println("    Creating the transport matrix to second order in dE")
 for i in 1:2
     @show i
     local R = dotransport(mpt104())
-    twisspropagation(R,0.2,0.2,0,0,1/0.2,1/0.2)
+    betay=twisspropagation(R,0.2,0.2,0,0,1/0.2,1/0.2)
+    println(betay)
     
 end
 
