@@ -268,6 +268,7 @@ write(apolog,"betay(dE) = $exprbety0 + 1*$exprbety1*dE + 1*$exprbety2*dE**2\n")
 write(apolog,"alfay(dE) = $expralfy0 + 1*$expralfy1*dE + 1*$expralfy2*dE**2\n")
 close(apolog)
 println(" file  apo.log created")
-return exprbety0,exprbety1,exprbety2
+return (exprbetx0,exprbetx1,exprbetx2,expralfx0,expralfx1,expralfx2,
+        exprbety0,exprbety1,exprbety2,expralfy0,expralfy1,expralfy2)
 
 end
